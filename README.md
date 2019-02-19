@@ -1,3 +1,3 @@
 # CS-3502-Project
-Operating Sys
+Operating System Project
 Share your code here.
