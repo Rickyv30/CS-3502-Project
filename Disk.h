@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-class Loader {
+class Disk {
 public:
     void instruct();
     std::string reader(int index);
