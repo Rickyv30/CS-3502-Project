@@ -6,16 +6,34 @@
 #include <iostream>
 
 namespace Project_Phase_One {
+    // CONSTRUCTOR
+    PCB::PCB(int jobNumber, int priority, int numberOfInstrucions, int jobDiskLocation) {
+        this->jobNumber = jobNumber;
+        this->priority = priority;
+        this->numberOfInstructions = numberOfInstrucions;
+        this->jobDiskLocation = jobDiskLocation;
+        registers[1] = 0;
+        processStatus = NEW;
+
+    }
+    PCB::PCB(){
+
+
+    }
     // GETTER
     bool PCB::getIsIO(){return isIO; }
-    int PCB::get_CUP_ID(){return cupID; }
+    int PCB::get_CPU_ID(){return cpuID; }
     int PCB::getProgramCounter(){return programCounter; }
+    int PCB::getJobNumber() {return jobNumber; }
+    int PCB::getNumberOfJobs() {return numberOfJobs; }
     int PCB::getCodeSize(){return codeSize; }
-    PCB::Process_States PCB::getProcessStatus(){return processStatus; }
+    Project_Phase_One::Process_States PCB::getProcessStatus(){return processStatus; }
     int PCB::getPriority(){return priority; }
     int* PCB::getRegisters(){return registers; }
+    int PCB::getDataDiskLocation() {return dataDiskLocation; }
     int PCB::getInputBuffer(){return inputBuffer;}
     int PCB::getOutputBuffer(){return outputBuffer;}
+    int PCB::getTempBuffer() {return tempBuffer; }
     int PCB::getBurstTIme(){return burstTime; }
     int PCB::getTimeSlice(){return timeSlice; }
     int PCB::getTimeRemaining(){return timeRemaining; }
@@ -27,16 +45,24 @@ namespace Project_Phase_One {
     PCB* PCB::getChildLeft(){return childLeft_ptr; }
     PCB* PCB::getChildRight(){return childRight_ptr; }
     PCB* PCB::getParent(){return parent_ptr; }
-    int* PCB::getCache(){return cache; }
+    std::string* PCB::getCache(){return cache; }
     //SETTER
-    void PCB::setIsIO(){this->isIO = isIO; }
-    void PCB::set_CUP_ID(int cupID){this->cupID = cupID; }
+    void PCB::setIsIO(bool isIO){this->isIO = isIO; }
+    void PCB::set_CPU_ID(int cpuID){this->cpuID = cpuID; }
+    void PCB::setRegisters(int registers[]) {
+        for(int i = 0; i< 16; i++)
+        this->registers[i] = registers[i];
+    }
     void PCB::setProgramCounter(int programCounter){this->programCounter = programCounter; }
+    void PCB::setJobNumber(int jobNumber) {this->jobNumber = jobNumber;}
+    void PCB::setNumberOfJobs(int numberOfJobs) {this->numberOfJobs = numberOfJobs; }
     void PCB::setCodeSize(int codeSize){this->codeSize = codeSize; }
     void PCB::setProcessStatus(Process_States processStatus){this->processStatus = processStatus; }
     void PCB::setPriority(int priority){this->priority = priority; }
+    void PCB::setDataDiskLocation(int dataDiskLocation) {this->dataDiskLocation = dataDiskLocation;}
     void PCB::setInputBuffer(int inputBuffer){this->inputBuffer = inputBuffer;}
     void PCB::setOutputBuffer(int outputBuffer){this->outputBuffer = outputBuffer; }
+    void PCB::setTempBuffer(int tempBuffer) {this->tempBuffer = tempBuffer;}
     void PCB::setBurstTIme(int burstTime){this->burstTime = burstTime; }
     void PCB::setTimeSlice(int timeSlice){this->timeSlice = timeSlice; }
     void PCB::setTimeRemaining(int timeRemaining){this->timeRemaining = timeRemaining; }
@@ -48,5 +74,10 @@ namespace Project_Phase_One {
     void PCB::setChildCodePointerLeft(PCB* childLeft_ptr){this->childLeft_ptr = childLeft_ptr; }
     void PCB::setChildCodePointerRight(PCB* childRight_ptr){this->childRight_ptr = childRight_ptr; }
     void PCB::setParent(PCB* parent_ptr){this->parent_ptr = parent_ptr; }
+    void PCB::setCache(std::string cache[], int size) {
+        cache = new std::string[size];
+        for(int i=0; i<size; i++)
+            this->cache[i] = cache[i];
+    }
 
 }
