@@ -4,7 +4,6 @@
 
 #include "LOADER.h"
 #include "PCB.h"
-#include "ADD_PCB_TO_QUEUE.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -37,12 +36,12 @@ namespace Project_Phase_One{
                     jobToken.push_back(intermediate);
                 }
 
-                int jobNumber = atoi(jobToken[2].c_str());
+                int jobNumber = std::stoi(jobToken[2], nullptr, 16);
                 int numberOfInstructions = std::stoi(jobToken[3], nullptr, 16);
                 int priority = atoi(jobToken[4].c_str());
 
                 JOB = Project_Phase_One::PCB(jobNumber, priority, numberOfInstructions, index);
-                diskList.addToDiskList(JOB);
+                disk.addPCBToDisk(JOB);
 
             }else if (content.find(findData) != std::string::npos){
                 std::vector<std::string> dataToken;
@@ -53,12 +52,13 @@ namespace Project_Phase_One{
                     dataToken.push_back(intermediate);
                 }
 
-                std::list<PCB>::iterator it = diskList.getDiskListCurrentPCB();
+                std::list<PCB>::iterator it = disk.getDiskIterator();
+                std::advance(it, (JOB.getJobNumber()-1));
                 int inputBuffer = std::stoi(dataToken[2], nullptr, 16);
                 int outputBuffer = std::stoi(dataToken[3], nullptr, 16);
                 int tempBuffer = std::stoi(dataToken[4], nullptr, 16);
 
-                std::advance(it, (JOB.getJobNumber() - 1));
+
                 it->setDataDiskLocation(index);
                 it->setInputBuffer(inputBuffer);
                 it->setOutputBuffer(outputBuffer);
@@ -70,7 +70,7 @@ namespace Project_Phase_One{
                 continue;
 
             }else {
-                std::cout<<"index is: "<<index<<": "<<content<<"\n";
+                //std::cout<<"index is: "<<index<<": "<<content<<"\n";
                 disk.writeToDisk(index, content);
                 index++;
 
@@ -89,11 +89,11 @@ namespace Project_Phase_One{
     }
 
     void LOADER::testkit2() {
-        std::list<Project_Phase_One::PCB>::iterator it = diskList.getDiskListCurrentPCB();
-        int i = 6;
-        std::advance(it, i-1);
-        std::cout<<it->getJobNumber()<<" "<<it->getInputBuffer()<<" "<<it->getProcessStatus()<<"\n";
-
+        for(int i=0; i<30; i++) {
+            PCB pcb = disk.getCurrentPCBFromRam(i);
+            std::cout << "job number: " << pcb.getJobNumber()<<" "<<pcb.getNumberOfInstructions()<< " and the input buffer: " << pcb.getInputBuffer()
+                      << std::endl;
+        }
     }
 
 
