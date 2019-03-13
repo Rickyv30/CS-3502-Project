@@ -18,6 +18,7 @@ namespace Project_Phase_One{
 
     public:
         void loading(std::string path);
+        DISK getDisk();
         void testKit();
         void testkit2();
 

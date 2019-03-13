@@ -6,8 +6,15 @@
 #include <cassert>
 namespace Project_Phase_One{
 
-    void DISK::addPCBToDisk(Project_Phase_One::PCB process) {
+    void DISK::writePCBToDisk(Project_Phase_One::PCB process) {
         diskList.push_back(process);
+    }
+
+    auto DISK::removePCBFromDisk(int index) {
+        std::list<PCB>::iterator it = diskList.begin();
+        std::advance(it, index);
+        it = diskList.erase(it);
+        return it;
     }
 
     std::string DISK::readFromDisk(int index){
@@ -28,10 +35,10 @@ namespace Project_Phase_One{
         instructions[index] = entry;
     }
 
-    PCB DISK::getCurrentPCBFromRam(int PCBPositionInDisk) {
-        std::list<PCB>::iterator it = diskList.begin();
+    PCB* DISK::getCurrentPCBFromRam(int PCBPositionInDisk) {
+        auto it = diskList.begin();
         std::advance(it, PCBPositionInDisk);
-        return *it;
+        return &(*it);
     }
 
     std::list<PCB>::iterator DISK::getDiskIterator() {

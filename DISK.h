@@ -13,7 +13,9 @@ namespace Project_Phase_One {
     class DISK {
     public:
 
-        void addPCBToDisk(PCB process);
+        void writePCBToDisk(PCB process);
+
+        auto removePCBFromDisk(int index);
 
         void writeToDisk(int index, std::string entry);
 
@@ -21,12 +23,13 @@ namespace Project_Phase_One {
 
         std::string readFromDisk(int index);
 
-        PCB getCurrentPCBFromRam(int PCBPositionInDisk);
+        PCB* getCurrentPCBFromRam(int PCBPositionInDisk);
 
         std::list<PCB>::iterator getDiskIterator();
 
     private:
-        std::string instructions[2048];
+        std::string instructions[4096];
+        // This to add the PCB into disk.
         std::list<PCB> diskList;
 
 

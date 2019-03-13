@@ -17,6 +17,10 @@ namespace Project_Phase_One{
         std::string findJob = "JOB";
         std::string findData = "Data";
         std::string findEND = "END";
+        int jobNumber = 0;
+        int numberOfInstructions = 0;
+        int priority = 0;
+        int jobIndex = 0;
 
         if(!fileReader){
             std::cerr<<"Unable to open file: "<<path<<std::endl;
@@ -36,12 +40,10 @@ namespace Project_Phase_One{
                     jobToken.push_back(intermediate);
                 }
 
-                int jobNumber = std::stoi(jobToken[2], nullptr, 16);
-                int numberOfInstructions = std::stoi(jobToken[3], nullptr, 16);
-                int priority = atoi(jobToken[4].c_str());
-
-                JOB = Project_Phase_One::PCB(jobNumber, priority, numberOfInstructions, index);
-                disk.addPCBToDisk(JOB);
+                jobNumber = std::stoi(jobToken[2], nullptr, 16);
+                numberOfInstructions = std::stoi(jobToken[3], nullptr, 16);
+                priority = atoi(jobToken[4].c_str());
+                jobIndex = index;
 
             }else if (content.find(findData) != std::string::npos){
                 std::vector<std::string> dataToken;
@@ -51,19 +53,20 @@ namespace Project_Phase_One{
                 while(std::getline(lookThrough, intermediate,' ')){
                     dataToken.push_back(intermediate);
                 }
+                JOB = PCB(jobNumber, priority, numberOfInstructions, jobIndex);
 
-                std::list<PCB>::iterator it = disk.getDiskIterator();
-                std::advance(it, (JOB.getJobNumber()-1));
+
                 int inputBuffer = std::stoi(dataToken[2], nullptr, 16);
                 int outputBuffer = std::stoi(dataToken[3], nullptr, 16);
                 int tempBuffer = std::stoi(dataToken[4], nullptr, 16);
 
 
-                it->setDataDiskLocation(index);
-                it->setInputBuffer(inputBuffer);
-                it->setOutputBuffer(outputBuffer);
-                it->setTempBuffer(tempBuffer);
+                JOB.setDataDiskLocation(index);
+                JOB.setInputBuffer(inputBuffer);
+                JOB.setOutputBuffer(outputBuffer);
+                JOB.setTempBuffer(tempBuffer);
 
+                disk.writePCBToDisk(JOB);
 
             }else if (content.find(findEND) != std::string::npos){
                 // Don't do anything and continue.
@@ -90,10 +93,15 @@ namespace Project_Phase_One{
 
     void LOADER::testkit2() {
         for(int i=0; i<30; i++) {
-            PCB pcb = disk.getCurrentPCBFromRam(i);
-            std::cout << "job number: " << pcb.getJobNumber()<<" "<<pcb.getNumberOfInstructions()<< " and the input buffer: " << pcb.getInputBuffer()
+            PCB* pcb = disk.getCurrentPCBFromRam(i);
+            std::cout << "job number: " << pcb->getJobNumber()<<" "<<pcb->getJobDiskLocation()<< " and the input buffer: " << pcb->getInputBuffer()
                       << std::endl;
         }
+    }
+
+    DISK LOADER::getDisk() {
+        return disk;
+
     }
 
 
