@@ -31,7 +31,7 @@ namespace Project_Phase_One {
         int burstTime, timeSlice, timeRemaining;
         std::string queueType;
         // Account
-        int cupTime, timeLimit, timeDelay, stateTime, endTime, ioTime;
+        int cupTime, timeLimit, timeDelay, startTime, endTime, ioTime;
         // Memories
         int pageTableBase, pages, pageSize;
         // Progeny
@@ -51,7 +51,8 @@ namespace Project_Phase_One {
         int get_CPU_ID();
         int getProgramCounter();
         int getJobNumber();
-        int getNumberOfJobs();
+        int getNumberOfInstructions();
+        int getJobDiskLocation();
         int getCodeSize();
         Process_States getProcessStatus();
         int getPriority();
@@ -78,7 +79,7 @@ namespace Project_Phase_One {
         void set_CPU_ID(int cupID);
         void setProgramCounter(int programCounter);
         void setJobNumber(int jobNumber);
-        void setNumberOfJobs(int numberOfJobs);
+        void setNumberOfInstructions(int numberOfInstructions);
         void setCodeSize(int codeSize);
         void setProcessStatus(Process_States processStatus);
         void setPriority(int priority);

@@ -24,8 +24,9 @@ namespace Project_Phase_One {
     bool PCB::getIsIO(){return isIO; }
     int PCB::get_CPU_ID(){return cpuID; }
     int PCB::getProgramCounter(){return programCounter; }
+    int PCB::getJobDiskLocation() {return jobDiskLocation; }
     int PCB::getJobNumber() {return jobNumber; }
-    int PCB::getNumberOfJobs() {return numberOfJobs; }
+    int PCB::getNumberOfInstructions() {return numberOfInstructions; }
     int PCB::getCodeSize(){return codeSize; }
     Project_Phase_One::Process_States PCB::getProcessStatus(){return processStatus; }
     int PCB::getPriority(){return priority; }
@@ -55,7 +56,7 @@ namespace Project_Phase_One {
     }
     void PCB::setProgramCounter(int programCounter){this->programCounter = programCounter; }
     void PCB::setJobNumber(int jobNumber) {this->jobNumber = jobNumber;}
-    void PCB::setNumberOfJobs(int numberOfJobs) {this->numberOfJobs = numberOfJobs; }
+    void PCB::setNumberOfInstructions(int numberOfInstructions) {this->numberOfJobs = numberOfInstructions; }
     void PCB::setCodeSize(int codeSize){this->codeSize = codeSize; }
     void PCB::setProcessStatus(Process_States processStatus){this->processStatus = processStatus; }
     void PCB::setPriority(int priority){this->priority = priority; }
