@@ -11,6 +11,7 @@
 
 
 namespace Project_Phase_One{
+
     void LOADER::loading(std::string path) {
         std::ifstream fileReader(path);
         std::string content;
@@ -66,6 +67,7 @@ namespace Project_Phase_One{
                 JOB.setOutputBuffer(outputBuffer);
                 JOB.setTempBuffer(tempBuffer);
 
+
                 disk.writePCBToDisk(JOB);
 
             }else if (content.find(findEND) != std::string::npos){
@@ -85,6 +87,11 @@ namespace Project_Phase_One{
 
     }
 
+    DISK LOADER::getDisk() {
+        return disk;
+
+    }
+
     void LOADER::testKit() {
         for(int i =0; i< 15; i++)
             std::cout<<disk.readFromDisk(i)<<"\n";
@@ -93,16 +100,12 @@ namespace Project_Phase_One{
 
     void LOADER::testkit2() {
         for(int i=0; i<30; i++) {
-            PCB* pcb = disk.getCurrentPCBFromRam(i);
-            std::cout << "job number: " << pcb->getJobNumber()<<" "<<pcb->getJobDiskLocation()<< " and the input buffer: " << pcb->getInputBuffer()
+            PCB pcb = disk.getCurrentPCBFromDisk(i);
+            std::cout << "job number: " << pcb.getJobNumber()<<" "<<pcb.getJobDiskLocation()<< " and the input buffer: " << pcb.getInputBuffer()
                       << std::endl;
         }
     }
 
-    DISK LOADER::getDisk() {
-        return disk;
-
-    }
 
 
 

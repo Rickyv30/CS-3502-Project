@@ -12,23 +12,29 @@
 namespace Project_Phase_One {
     class DISK {
     public:
+        DISK();
 
         void writePCBToDisk(PCB process);
 
-        auto removePCBFromDisk(int index);
+        auto removePCBFromDisk(const int index);
 
-        void writeToDisk(int index, std::string entry);
+        void writeToDisk(const int index, const std::string entry);
 
         std::string pReader(int index, int size, std::string instructions);
 
-        std::string readFromDisk(int index);
+        std::string readFromDisk(const int index);
 
-        PCB* getCurrentPCBFromRam(int PCBPositionInDisk);
+        PCB getCurrentPCBFromDisk(const int PCBPositionInDisk);
 
         std::list<PCB>::iterator getDiskIterator();
 
     private:
-        std::string instructions[4096];
+        // Disk management
+        std::string empty = "EMPTY";
+        const int diskSize = 4096;
+        int diskCounter = 0;
+        // Disk
+        std::string disk[4096];
         // This to add the PCB into disk.
         std::list<PCB> diskList;
 
