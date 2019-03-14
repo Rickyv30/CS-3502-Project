@@ -6,9 +6,11 @@
 #define C_PROJECT_PCB_H
 
 #include <iostream>
+#include <array>
+
 
 namespace Project_Phase_One {
-    enum Process_States{NEW, READY, RUNNING, WAITING};
+    enum Process_States{NEW, READY, RUNNING, WAITING, TERMINATE};
     class PCB{
     private:
         int cpuID;
@@ -20,7 +22,7 @@ namespace Project_Phase_One {
         int jobDiskLocation;
         Process_States processStatus;
         int priority;
-        int registers[16];
+        std::array<int, 16> registers;
         bool isIO;
         // Data
         int dataDiskLocation;
@@ -41,7 +43,7 @@ namespace Project_Phase_One {
         PCB* parent_ptr;
         // Resources
         int unitNumber;
-        std::string cache[100];
+        std::array<std::string, 100> cache;
     public:
         // CONSTRUCTOR
         PCB(int jobNumber, int priority, int numberOfInstrucions, int jobDiskLocation);
@@ -56,7 +58,7 @@ namespace Project_Phase_One {
         int getCodeSize();
         Process_States getProcessStatus();
         int getPriority();
-        int* getRegisters();
+        std::array<int, 16> getRegisters();
         int getDataDiskLocation();
         int getInputBuffer();
         int getOutputBuffer();
@@ -72,7 +74,7 @@ namespace Project_Phase_One {
         PCB* getChildLeft();
         PCB* getChildRight();
         PCB* getParent();
-        std::string* getCache();
+        std::array<std::string, 100> getCache();
         // The Setter will set the member of this class
 
         void setIsIO(bool isIO);
@@ -83,7 +85,7 @@ namespace Project_Phase_One {
         void setCodeSize(int codeSize);
         void setProcessStatus(Process_States processStatus);
         void setPriority(int priority);
-        void setRegisters(int* registers);
+        void setRegisters(std::array<int, 16> registers);
         void setDataDiskLocation(int dataDiskLocation);
         void setInputBuffer(int inputBuffer);
         void setOutputBuffer(int outputBuffer);
@@ -99,7 +101,7 @@ namespace Project_Phase_One {
         void setChildCodePointerLeft(PCB* childLeft_ptr);
         void setChildCodePointerRight(PCB* childRight_ptr);
         void setParent(PCB* parent_ptr);
-        void setCache(std::string cache[], int size);
+        void setCache(std::array<std::string, 100> cache);
 
     };
 

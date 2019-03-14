@@ -12,6 +12,7 @@ namespace Project_Phase_One {
         this->priority = priority;
         this->numberOfInstructions = numberOfInstrucions;
         this->jobDiskLocation = jobDiskLocation;
+        //this->programCounter = jobDiskLocation;
         registers[1] = 0;
         processStatus = NEW;
 
@@ -30,7 +31,7 @@ namespace Project_Phase_One {
     int PCB::getCodeSize(){return codeSize; }
     Project_Phase_One::Process_States PCB::getProcessStatus(){return processStatus; }
     int PCB::getPriority(){return priority; }
-    int* PCB::getRegisters(){return registers; }
+    std::array<int, 16> PCB::getRegisters(){return registers; }
     int PCB::getDataDiskLocation() {return dataDiskLocation; }
     int PCB::getInputBuffer(){return inputBuffer;}
     int PCB::getOutputBuffer(){return outputBuffer;}
@@ -46,13 +47,13 @@ namespace Project_Phase_One {
     PCB* PCB::getChildLeft(){return childLeft_ptr; }
     PCB* PCB::getChildRight(){return childRight_ptr; }
     PCB* PCB::getParent(){return parent_ptr; }
-    std::string* PCB::getCache(){return cache; }
+    std::array<std::string, 100> PCB::getCache(){return cache; }
     //SETTER
     void PCB::setIsIO(bool isIO){this->isIO = isIO; }
     void PCB::set_CPU_ID(int cpuID){this->cpuID = cpuID; }
-    void PCB::setRegisters(int registers[]) {
-        for(int i = 0; i< 16; i++)
-        this->registers[i] = registers[i];
+    void PCB::setRegisters(std::array<int, 16> registers) {
+
+        this->registers = registers;
     }
     void PCB::setProgramCounter(int programCounter){this->programCounter = programCounter; }
     void PCB::setJobNumber(int jobNumber) {this->jobNumber = jobNumber;}
@@ -75,10 +76,8 @@ namespace Project_Phase_One {
     void PCB::setChildCodePointerLeft(PCB* childLeft_ptr){this->childLeft_ptr = childLeft_ptr; }
     void PCB::setChildCodePointerRight(PCB* childRight_ptr){this->childRight_ptr = childRight_ptr; }
     void PCB::setParent(PCB* parent_ptr){this->parent_ptr = parent_ptr; }
-    void PCB::setCache(std::string cache[], int size) {
-        cache = new std::string[size];
-        for(int i=0; i<size; i++)
-            this->cache[i] = cache[i];
+    void PCB::setCache(std::array<std::string, 100> cache) {
+            this->cache = cache;
     }
 
 }
