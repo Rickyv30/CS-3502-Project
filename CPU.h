@@ -18,7 +18,7 @@
 namespace Project_Phase_One {
     class CPU {
     public:
-        enum ProcessorState{IDLE, TERMINATING, UNLOADING, LOADING, RUN1NING};
+        enum ProcessorState{IDLE, UNLOADING, LOADING, EXECUTING};
     private:
         int testing = 0;
         // The Jobs.

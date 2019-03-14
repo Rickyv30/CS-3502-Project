@@ -13,7 +13,7 @@ namespace Project_Phase_One {
      * The load method will take a PCB and load its information onto the cpu.
      * */
     void CPU::loadProcess(Project_Phase_One::PCB process) {
-        std::cout<<"loading PCB # "<<process.getJobNumber()<<" \n";
+        std::cout<<"===loading PCB # "<<process.getJobNumber()<<" \n";
 
         processorState = LOADING;
 
@@ -44,10 +44,10 @@ namespace Project_Phase_One {
 
     void CPU::unloadProcess(Project_Phase_One::PCB process) {
         endTime = clock();
-        std::cout<<"Unloading Job #"<<process.getJobNumber()<<std::endl;
+        std::cout<<"===Unloading Job #"<<process.getJobNumber()<<std::endl;
 
         processorState = UNLOADING;
-
+        process.setBurstTIme(endTime-startTime);
         process.setNumberOfInstructions(jobNumber);
         process.setRegisters(registers);
         process.setOutputBuffer(outputBuffer);
@@ -60,15 +60,15 @@ namespace Project_Phase_One {
 
         if(jobCounter>programCounter){
             process.setProcessStatus(WAITING);
-            std::cout<<"This PCB is going into the wait queue"<<std::endl;
+            std::cout<<"===This PCB is going into the wait queue"<<std::endl;
         }
         else {
             process.setProcessStatus(TERMINATE);
-            std::cout<<"This PCB is going to TERMINATE."<<std::endl;
-            std::cout<<"There was "<<ioCount<<" I/O counts."<<std::endl;
-            std::cout<<"This process spend "<<(endTime-startTime)/double(CLOCKS_PER_SEC)<<" seconds on the CPU."<<std::endl;
+            std::cout<<"===This PCB is going to TERMINATE."<<std::endl;
+            std::cout<<"===There was "<<ioCount<<" I/O counts."<<std::endl;
+            std::cout<<"===This process spend "<<(endTime-startTime)/double(CLOCKS_PER_SEC)<<" seconds on the CPU."<<std::endl;
             totalTime += (endTime-startTime);
-            std::cout<<"The total time was "<<totalTime/double(CLOCKS_PER_SEC)<<std::endl;
+            std::cout<<"===The total time was "<<totalTime/double(CLOCKS_PER_SEC)<<std::endl;
         }
 
     }
@@ -115,6 +115,7 @@ namespace Project_Phase_One {
     }
 
     void CPU::executeProcess() {
+        processorState = EXECUTING;
         std::stringstream stream;
         int temp = 0;
         switch(opCode){
@@ -282,12 +283,6 @@ namespace Project_Phase_One {
         return cache[programCounter];
     }
 
-    void CPU::runProcess() {
-
-
-
-
-    }
 
     std::string CPU::hexToBinary(std::string hex) {
 
