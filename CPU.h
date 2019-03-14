@@ -14,6 +14,7 @@
 #include "LOADER.h"
 #include "DISK.h"
 #include "PCB.h"
+#include "RAM.h"
 
 namespace Project_Phase_One {
     class CPU {
@@ -48,7 +49,7 @@ namespace Project_Phase_One {
         Project_Phase_One::Process_States processStates;
         bool isIO;
     public:
-        void loadProcess(Project_Phase_One::PCB process);
+        void loadProcess(Project_Phase_One::PCB process, Project_Phase_One::RAM ram);
         void unloadProcess(Project_Phase_One::PCB process);
         void executeProcess();
         void runProcess();

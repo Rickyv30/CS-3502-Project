@@ -7,9 +7,9 @@
 namespace Project_Phase_One{
 
     DISK::DISK() {
-        for (int i=0; i< diskSize; i++){
+        /*for (int i=0; i< diskSize; i++){
             disk[i] = empty;
-        }
+        }*/
 
     }
 
@@ -50,7 +50,7 @@ namespace Project_Phase_One{
         if((index >= diskSize) || (0 > index)){
             std::cout<<"Index does not exist in this disk."<<std::endl;
 
-        }else if (disk[index].find(empty) == std::string::npos){
+        }else if (disk[index].find(empty) != std::string::npos){
             std::cout<<"This index is already in use."<<std::endl;
 
         }else{
@@ -65,9 +65,8 @@ namespace Project_Phase_One{
         return (*it);
     }
 
-    std::list<PCB>::iterator DISK::getDiskIterator() {
-        std::list<PCB>::iterator it = diskList.begin();
-        return it;
+    std::list<PCB> DISK::getDiskList() {
+        return diskList;
 
     }
 

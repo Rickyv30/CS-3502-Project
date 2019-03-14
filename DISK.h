@@ -14,7 +14,7 @@ namespace Project_Phase_One {
     public:
         DISK();
 
-        void writePCBToDisk(PCB process);
+        void writePCBToDisk(const PCB process);
 
         auto removePCBFromDisk(const int index);
 
@@ -26,7 +26,7 @@ namespace Project_Phase_One {
 
         PCB getCurrentPCBFromDisk(const int PCBPositionInDisk);
 
-        std::list<PCB>::iterator getDiskIterator();
+        std::list<PCB> getDiskList();
 
     private:
         // Disk management

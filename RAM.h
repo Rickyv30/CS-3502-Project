@@ -16,9 +16,8 @@ namespace Project_Phase_One {
 
     class RAM {
     private:
-        DISK disk;
         LOADER load;
-        int ramCount = 0;
+        int ramCount = 0, freeFrameStart = 0, freeFameEnd = 1024;
         const int ramSize = 1024;
         std::string ram[1024], empty = "EMPTY";
         std::list<Project_Phase_One::PCB> readyQueue;
@@ -26,17 +25,23 @@ namespace Project_Phase_One {
 
         RAM();
 
+        void ramWipe();
+
         bool ramIsFull();
 
-        void allocateRam(const int start, const int end);
+        void deallocateRam(const int start, const int end);
 
         void writeToRAM(const int index, const std::string entry);
 
-        void addPCBToRam(Project_Phase_One::PCB process);
+        bool addPCBToRam(Project_Phase_One::PCB process);
 
-        Project_Phase_One::PCB getPCBFromRAM(int index);
+        Project_Phase_One::PCB getPCBFromRAM(const int index);
+
+        std::list<Project_Phase_One::PCB> getReadyQueue();
 
         std::string readFromRAM(const int index);
+
+        void testRam();
 
     };
 

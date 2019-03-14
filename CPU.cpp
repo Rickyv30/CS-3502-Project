@@ -12,7 +12,7 @@ namespace Project_Phase_One {
      * @PCB process
      * The load method will take a PCB and load its information onto the cpu.
      * */
-    void CPU::loadProcess(Project_Phase_One::PCB process) {
+    void CPU::loadProcess(Project_Phase_One::PCB process, Project_Phase_One::RAM ram) {
         std::cout<<"===loading PCB # "<<process.getJobNumber()<<" \n";
 
         processorState = LOADING;
@@ -31,14 +31,12 @@ namespace Project_Phase_One {
         cpuID = process.get_CPU_ID();
         ioCount = 0;
         cacheSize = inputBuffer + outputBuffer + tempBuffer + jobCounter;
-        LOADER load;
-
-        load.loading("/Users/testuser/Documents/Operating System/C++Project/Program-File-Wordversion.txt");
-        DISK disk = load.getDisk();
 
         for (int i = 0; i < cacheSize; i++) {
-            cache[i] = disk.readFromDisk(i+process.getJobDiskLocation());
+            cache[i] = ram.readFromRAM(i+process.getJobRamLocation());
         }
+        std::cout<<(cacheSize/100.0)*100<<"% of the cache is being used."<<std::endl;
+
 
     }
 
@@ -55,7 +53,7 @@ namespace Project_Phase_One {
         process.setTempBuffer(tempBuffer);
         process.setProgramCounter(programCounter);
         process.setCache(cache);
-        process.setCodeSize(cacheSize);
+        process.setCacheSize(cacheSize);
         //process.set
 
         if(jobCounter>programCounter){

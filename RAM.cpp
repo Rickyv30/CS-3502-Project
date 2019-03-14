@@ -6,8 +6,16 @@
 #include <iostream>
 
 Project_Phase_One::RAM::RAM(){
-    for(int i = 0; i < ramSize; i++)
+    for(int i = 0; i < ramSize; i++) {
         ram[i] = empty;
+    }
+}
+
+void Project_Phase_One::RAM::ramWipe() {
+    for (int i = 0; i < ramSize; ++i) {
+        ram[i] = empty;
+    }
+    ramCount=0;
 
 }
 
@@ -32,8 +40,14 @@ void Project_Phase_One::RAM::writeToRAM(int index, std::string entry) {
 
 }
 
-void Project_Phase_One::RAM::addPCBToRam(Project_Phase_One::PCB process) {
+bool Project_Phase_One::RAM::addPCBToRam(Project_Phase_One::PCB process) {
 
+    /*std::cout<<"======adding PCB # "<<process.getJobNumber()
+             <<"\ninput: "<<process.getInputBuffer()
+             <<"\noutput: "<<process.getOutputBuffer()
+             <<"\ntemp: "<<process.getTempBuffer()
+             <<"\nnumber of instuctions: "<<process.getNumberOfInstructions()<<std::endl;*/
+    bool isRamFull = false;
     process.setProcessStatus(READY);
     int loadAmount = process.getInputBuffer()+
                      process.getOutputBuffer()+
@@ -41,10 +55,17 @@ void Project_Phase_One::RAM::addPCBToRam(Project_Phase_One::PCB process) {
                      process.getNumberOfInstructions();
 
     if((loadAmount+ramCount) <= ramSize){
-        for(int i = process.getDataDiskLocation(); i < loadAmount; i++){
-            ram[ramCount] = disk.readFromDisk(i);
-        }
-    } else std::cout<<"This list is full, begin execution."<<std::endl;
+        std::cout<<"THis ram is full."<<std::endl;
+        process.setJobRamLocation(process.getJobDiskLocation());
+        readyQueue.push_back(process);
+    }
+    else {
+
+        isRamFull = true;
+
+    }
+
+    return isRamFull;
 
 
 }
@@ -58,9 +79,17 @@ Project_Phase_One::PCB Project_Phase_One::RAM::getPCBFromRAM(int index) {
 
 }
 
-void Project_Phase_One::RAM::allocateRam(int start, int end) {
-    for(int i = start; i < end; i++)
+std::list<Project_Phase_One::PCB> Project_Phase_One::RAM::getReadyQueue() {
+    return readyQueue;
+
+}
+
+void Project_Phase_One::RAM::deallocateRam(int start, int end) {
+
+    for(int i = start; i < end; i++){
         ram[i] = empty;
+        ramCount--;
+    }
 
 }
 
@@ -68,6 +97,12 @@ bool Project_Phase_One::RAM::ramIsFull() {
     if (ramCount >= ramSize)
         return true;
     else return false;
+
+}
+
+void Project_Phase_One::RAM::testRam() {
+    for(int i =0; i< ramSize; i++)
+        std::cout<<ram[i]<<std::endl;
 
 }
 
