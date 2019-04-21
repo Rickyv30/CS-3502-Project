@@ -43,8 +43,9 @@ namespace Project_Phase_One {
         PCB* childRight_ptr;
         PCB* parent_ptr;
         // Resources
+        bool isPCBInRam = false;
         int unitNumber;
-        std::array<std::string, 100> cache;
+        std::array<std::string, 1024> cache;
     public:
         // CONSTRUCTOR
         PCB(int jobNumber, int priority, int numberOfInstrucions, int jobDiskLocation);
@@ -77,7 +78,9 @@ namespace Project_Phase_One {
         PCB* getChildLeft();
         PCB* getChildRight();
         PCB* getParent();
-        std::array<std::string, 100> getCache();
+        std::array<std::string, 1024> getCache();
+        bool getIsPCBInRam();
+
         // The Setter will set the member of this class
 
         void setIsIO(bool isIO);
@@ -107,8 +110,8 @@ namespace Project_Phase_One {
         void setChildCodePointerLeft(PCB* childLeft_ptr);
         void setChildCodePointerRight(PCB* childRight_ptr);
         void setParent(PCB* parent_ptr);
-        void setCache(std::array<std::string, 100> cache);
-
+        void setCache(std::array<std::string, 1024> cache);
+        void setIsPCBInRam(const bool isPCBInRam);
     };
 
 }

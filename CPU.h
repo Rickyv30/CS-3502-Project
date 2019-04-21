@@ -11,15 +11,16 @@
 #include <thread>
 #include <mutex>
 #include <algorithm>
+#include <fstream>
 #include "LOADER.h"
 #include "DISK.h"
 #include "PCB.h"
 #include "RAM.h"
 
+
 namespace Project_Phase_One {
+    enum ProcessorState{IDLE, UNLOADING, LOADING, EXECUTING};
     class CPU {
-    public:
-        enum ProcessorState{IDLE, UNLOADING, LOADING, EXECUTING};
     private:
         int testing = 0;
         // The Jobs.
@@ -36,7 +37,7 @@ namespace Project_Phase_One {
 
         // The cache.
         int cacheSize;
-        std::array<std::string, 100> cache;
+        std::array<std::string, 1024> cache;
         // The time spent one the CPU.
         int startTime, endTime, totalTime = 0;
         // The Instructions.
@@ -48,7 +49,9 @@ namespace Project_Phase_One {
         int cpuID;
         Project_Phase_One::Process_States processStates;
         bool isIO;
+        std::ofstream myfile();
     public:
+        CPU();
         void loadProcess(Project_Phase_One::PCB process, Project_Phase_One::RAM ram);
         void unloadProcess(Project_Phase_One::PCB process);
         void executeProcess();
@@ -58,6 +61,24 @@ namespace Project_Phase_One {
         void setRegisters(std::string opCode);
         std::string hexToBinary(std::string hex);
 
+        //MARK: Setter
+        void setJobNumber(const int jobNumber){ this->jobNumber = jobNumber; }
+        void setJobCounter(const int jobCounter){ this->jobCounter = jobCounter; }
+        void setInputBuffer(const int inputBuffer){ this->inputBuffer = inputBuffer; }
+        void setOutputBuffer(const int outputBuffer){ this->outputBuffer = outputBuffer; }
+        void setTempBuffer(const int tempBuffer){ this->tempBuffer = tempBuffer; }
+        void setRegister(const std::array<int, 16> registers){this->registers = registers; }
+        void setProcessorState( ProcessorState processorState){ this->processorState = processorState; }
+
+
+        //MARK: Getter
+        int getJobNumber(){ return jobNumber; }
+        int getJobCounter(){ return jobCounter; }
+        int getInputBuffer(){ return inputBuffer; }
+        int getOutputBuffer(){ return outputBuffer; }
+        int getTempBuffer(){ return tempBuffer; }
+        std::array<int, 16> getRegister(){ return registers; }
+        ProcessorState getProcessorState(){ return processorState; }
 
     };
 

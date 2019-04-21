@@ -12,16 +12,13 @@
 namespace Project_Phase_One{
     class LOADER {
     private:
-        DISK disk;
         PCB JOB;
         int index = 0;
 
 
     public:
-        void loading(std::string path);
-        DISK getDisk();
-        void testKit();
-        void testkit2();
+        void loading(std::string path, std::string instructions[], std::list<PCB> *newPCBList);
+
 
     };
 

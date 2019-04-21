@@ -14,7 +14,7 @@
 #include "LONG_TERM_SCHEDULER.h"
 #include "RAM.h"
 #include "SHORT_TERM_SCHEDULER.h"
-
+#include "DRIVER.h"
 
 
 int getRandom(int max){
@@ -23,7 +23,7 @@ int getRandom(int max){
 
 }
 
-void executeThread(int id){
+void executeThread(int id/*Project_Phase_One::CPU cpu, Project_Phase_One::LONG_TERM_SCHEDULER longTerm, Project_Phase_One::LOADER load, Project_Phase_One::RAM ram*/){
     auto currentTime = std::chrono::system_clock::now();
     std::time_t sleepTime = std::chrono::system_clock::to_time_t(currentTime);
 
@@ -35,52 +35,57 @@ void executeThread(int id){
     currentTime = std::chrono::system_clock::now();
     sleepTime = std::chrono::system_clock::to_time_t(currentTime);
     std::cout<<"Thread: "<<id<<"Awake time:"<<std::ctime(&sleepTime)<<std::endl;
+    std::cout<<"this thread is number"<<id<<std::endl;
+    /*int listSize = load.getDisk().getDiskList().size();
+
+    for (int i = 0; i < listSize; i++) {
+        if(ram.ramIsFull()){
+            break;
+        }
+
+        longTerm.fromDiskToRam(load.getDisk().getCurrentPCBFromDisk(i), load.getDisk(), &ram);
+        std::cout<<load.getDisk().getCurrentPCBFromDisk(i).getJobNumber()<<" is being added to ram"<<std::endl;
+    }
+
+    int processSize = ram.getReadyQueue().size();
+    std::cout<<"ram: "<<processSize<<std::endl;
+    for (int j = 0; j < processSize; j++) {
+        cpu.loadProcess(ram.getPCBFromRAM(j), ram);
+        for (int i = ram.getPCBFromRAM(j).getJobRamLocation();
+             i < (ram.getPCBFromRAM(j).getJobRamLocation() +
+                  ram.getPCBFromRAM(j).getNumberOfInstructions()); i++) {
+
+            cpu.decode(ram.readFromRAM(i));
+
+            cpu.executeProcess();
+        }
+
+        cpu.unloadProcess(ram.getPCBFromRAM(j));
+
+
+
+    }*/
 
 }
 
 
 int main() {
-    int processCount = 0;
-    Project_Phase_One::LONG_TERM_SCHEDULER longTerm;
-    Project_Phase_One::LOADER load;
-    load.loading("/Users/testuser/Documents/Operating System/C++Project/Program-File-Wordversion.txt");
-    //Project_Phase_One::DISK disk = load.getDisk();
-    Project_Phase_One::CPU cpu;
-    Project_Phase_One::RAM ram;
-
-    while(processCount <= load.getDisk().getDiskList().size()) {
-        for (int i = processCount; i < 30; i++) {
-            std::cout<<"Process count at this point is "<<processCount<<std::endl;
-            longTerm.fromDiskToRam(load.getDisk().getCurrentPCBFromDisk(i+1), load.getDisk());
-        }
+    Project_Phase_One::DRIVER driver;
+    driver.RUN();
 
 
-        //int startPoint = processCount;
-        for (int x = 0; x < longTerm.getRam().getReadyQueue().size(); x++) {
-            cpu.loadProcess(longTerm.getRam().getPCBFromRAM(x), longTerm.getRam());
-            std::cout<<++processCount<<std::endl;
-            for (int i = longTerm.getRam().getPCBFromRAM(x).getJobRamLocation();
-                 i < (longTerm.getRam().getPCBFromRAM(x).getJobRamLocation() +
-                      longTerm.getRam().getPCBFromRAM(x).getNumberOfInstructions()); i++) {
 
-                cpu.decode(longTerm.getRam().readFromRAM(i));
-                cpu.executeProcess();
-
-            }
-
-            cpu.unloadProcess(longTerm.getRam().getPCBFromRAM(x));
-            //longTerm.getRam().deallocateRam(longTerm.getRam().getPCBFromRAM(x).getJobRamLocation(), longTerm.getRam().getPCBFromRAM(x).getCacheSize());
-
-        }
-        std::cout<<"============\n====="<<processCount<<"=====\n============"<<std::endl;
-        longTerm.getRam().ramWipe();
-    }
+    //}
+    /*std::thread thread1(executeThread, cpu, longTerm, load, ram);
+    thread1.join();
+    std::cout<<"thread ID is "<<thread1.get_id()<<std::endl;
+    std::thread thread2(executeThread, cpu, longTerm, load, ram);
+    thread2.join();*/
     /*std::thread thread1(executeThread, 1);
     thread1.join();
     std::cout<<"thread ID is "<<thread1.get_id()<<std::endl;
     std::thread thread2(executeThread, 2);
     thread2.join();*/
-
 
 
 

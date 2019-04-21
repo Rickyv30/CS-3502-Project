@@ -18,8 +18,8 @@ namespace Project_Phase_One {
     private:
         LOADER load;
         int ramCount = 0, freeFrameStart = 0, freeFameEnd = 1024;
-        const int ramSize = 1024;
-        std::string ram[1024], empty = "EMPTY";
+        const int ramSize = 2048;
+        std::string ram[2048], empty = "EMPTY";
         std::list<Project_Phase_One::PCB> readyQueue;
     public:
 
@@ -33,7 +33,7 @@ namespace Project_Phase_One {
 
         void writeToRAM(const int index, const std::string entry);
 
-        bool addPCBToRam(Project_Phase_One::PCB process);
+        void addPCBToRam(Project_Phase_One::PCB process);
 
         Project_Phase_One::PCB getPCBFromRAM(const int index);
 
@@ -41,7 +41,12 @@ namespace Project_Phase_One {
 
         std::string readFromRAM(const int index);
 
+        int getRamSize();
+
+        int getRamCount();
+
         void testRam();
+
 
     };
 

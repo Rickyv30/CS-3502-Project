@@ -16,13 +16,14 @@ void Project_Phase_One::RAM::ramWipe() {
         ram[i] = empty;
     }
     ramCount=0;
+    readyQueue.clear();
 
 }
 
 std::string Project_Phase_One::RAM::readFromRAM(int index) {
 
     if((index >= ramSize) || (0 > index))
-        std::cout<<"This index does not exist in RAM."<<std::endl;
+        std::cout<<index<<" index does not exist in RAM."<<std::endl;
     else if(ram[index].find(empty) != std::string::npos)
         std::cout<<"this index is not is "<<empty<<std::endl;
     else
@@ -30,42 +31,35 @@ std::string Project_Phase_One::RAM::readFromRAM(int index) {
 }
 
 void Project_Phase_One::RAM::writeToRAM(int index, std::string entry) {
-
+    //int freeSpace =
     if(!ramIsFull() && (ram[index].find(empty) != std::string::npos)) {
         ram[index] = entry;
         ramCount++;
+        //std::cout<<"ramCount"<<ramCount<<std::endl;
     }
-    else
-        std::cout<<"Ram is full."<<std::endl;
+    //else
+        //std::cout<<ramCount<<" Ram is full."<<std::endl;
 
 }
 
-bool Project_Phase_One::RAM::addPCBToRam(Project_Phase_One::PCB process) {
+ void Project_Phase_One::RAM::addPCBToRam(Project_Phase_One::PCB process) {
 
     /*std::cout<<"======adding PCB # "<<process.getJobNumber()
              <<"\ninput: "<<process.getInputBuffer()
              <<"\noutput: "<<process.getOutputBuffer()
              <<"\ntemp: "<<process.getTempBuffer()
              <<"\nnumber of instuctions: "<<process.getNumberOfInstructions()<<std::endl;*/
-    bool isRamFull = false;
+
     process.setProcessStatus(READY);
     int loadAmount = process.getInputBuffer()+
                      process.getOutputBuffer()+
                      process.getTempBuffer()+
                      process.getNumberOfInstructions();
-
+    //std::cout<<"this is the ram "<<loadAmount<<" + "<<ramCount<<" <= "<<ramSize<<std::endl;
     if((loadAmount+ramCount) <= ramSize){
-        std::cout<<"THis ram is full."<<std::endl;
         process.setJobRamLocation(process.getJobDiskLocation());
         readyQueue.push_back(process);
     }
-    else {
-
-        isRamFull = true;
-
-    }
-
-    return isRamFull;
 
 
 }
@@ -100,9 +94,17 @@ bool Project_Phase_One::RAM::ramIsFull() {
 
 }
 
+int Project_Phase_One::RAM::getRamSize() {
+    return ramSize;
+}
+
+int Project_Phase_One::RAM::getRamCount() {
+    return ramCount;
+}
+
 void Project_Phase_One::RAM::testRam() {
     for(int i =0; i< ramSize; i++)
-        std::cout<<ram[i]<<std::endl;
+        std::cout<<"ram["<<i<<"] = "<<ram[i]<<std::endl;
 
 }
 

@@ -13,12 +13,15 @@
 namespace Project_Phase_One {
 
     class LONG_TERM_SCHEDULER {
-        bool isRamFull = false;
-        RAM ram;
-
+    private:
+        int const MAX_RAM_SPACE = 1024;
+        int const MAX_DISK_SPACE = 2048;
+        std::string const FIND_EMPTY_FRAME = "EMPTY";
+        int index = 0;
     public:
-        void fromDiskToRam(PCB process, DISK disk);
-        RAM getRam();
+        bool canAdd(std::list<PCB> *PCBInDISK) const;
+        void LongTermSheduler(std::string DISK[], std::string RAM[], std::list<PCB> *PCBInDISK, std::list<PCB> *PCBInRAM);
+
     };
 
 }

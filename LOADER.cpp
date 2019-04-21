@@ -12,18 +12,20 @@
 
 namespace Project_Phase_One{
 
-    void LOADER::loading(std::string path) {
+    void LOADER::loading(std::string path, std::string instructions[], std::list<PCB> *newPCBList) {
         std::ifstream fileReader(path);
         std::string content;
         std::string findJob = "JOB";
         std::string findData = "Data";
         std::string findEND = "END";
+        std::string findEmptyFrame = "EMPTY";
         int jobNumber = 0;
         int numberOfInstructions = 0;
         int priority = 0;
         int jobIndex = 0;
 
         if(!fileReader){
+
             std::cerr<<"Unable to open file: "<<path<<std::endl;
             exit(1);
 
@@ -68,16 +70,24 @@ namespace Project_Phase_One{
                 JOB.setTempBuffer(tempBuffer);
 
 
-                disk.writePCBToDisk(JOB);
+                newPCBList->push_back(JOB);
 
             }else if (content.find(findEND) != std::string::npos){
                 // Don't do anything and continue.
                 continue;
 
             }else {
-                //std::cout<<"index is: "<<index<<": "<<content<<"\n";
-                disk.writeToDisk(index, content);
-                index++;
+
+                if(instructions[index].find(findEmptyFrame) != std::string::npos){
+
+                    instructions[index] = content;
+                    index++;
+
+                }else{
+                    std::cout<<"this frame is not empty."<<std::endl;
+
+                }
+
 
             }
 
@@ -87,24 +97,6 @@ namespace Project_Phase_One{
 
     }
 
-    DISK LOADER::getDisk() {
-        return disk;
-
-    }
-
-    void LOADER::testKit() {
-        for(int i =0; i< 15; i++)
-            std::cout<<disk.readFromDisk(i)<<"\n";
-
-    }
-
-    void LOADER::testkit2() {
-        for(int i=0; i<30; i++) {
-            PCB pcb = disk.getCurrentPCBFromDisk(i);
-            std::cout << "job number: " << pcb.getJobNumber()<<" "<<pcb.getJobDiskLocation()<< " and the input buffer: " << pcb.getInputBuffer()
-                      << std::endl;
-        }
-    }
 
 
 

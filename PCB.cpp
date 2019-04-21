@@ -49,7 +49,8 @@ namespace Project_Phase_One {
     PCB* PCB::getChildLeft(){return childLeft_ptr; }
     PCB* PCB::getChildRight(){return childRight_ptr; }
     PCB* PCB::getParent(){return parent_ptr; }
-    std::array<std::string, 100> PCB::getCache(){return cache; }
+    std::array<std::string, 1024> PCB::getCache(){return cache; }
+    bool PCB::getIsPCBInRam() {return isPCBInRam;}
 
     // SETTER
     void PCB::setIsIO(bool isIO){this->isIO = isIO; }
@@ -77,7 +78,7 @@ namespace Project_Phase_One {
     void PCB::setTimeSlice(int timeSlice){this->timeSlice = timeSlice; }
     void PCB::setTimeRemaining(int timeRemaining){this->timeRemaining = timeRemaining; }
     // Page System
-    void PCB::setQueueType(std::string queueType){this->queueType = queueType; }
+    //void PCB::setQueueType(std::string queueType){this->queueType = queueType; }
     void PCB::setPageTableBase(int pageTableBase){this->pageTableBase = pageTableBase; }
     void PCB::setPages(int pages){this->pages = pages; }
     void PCB::setPageSize(int pageSize){this->pageSize = pageSize; }
@@ -86,8 +87,8 @@ namespace Project_Phase_One {
     void PCB::setChildCodePointerLeft(PCB* childLeft_ptr){this->childLeft_ptr = childLeft_ptr; }
     void PCB::setChildCodePointerRight(PCB* childRight_ptr){this->childRight_ptr = childRight_ptr; }
     void PCB::setParent(PCB* parent_ptr){this->parent_ptr = parent_ptr; }
-    void PCB::setCache(std::array<std::string, 100> cache) {
+    void PCB::setCache(std::array<std::string, 1024> cache) {
             this->cache = cache;
     }
-
+    void PCB::setIsPCBInRam(const bool isPCBInRam) {this->isPCBInRam = isPCBInRam; }
 }
