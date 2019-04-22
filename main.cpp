@@ -24,8 +24,9 @@ int getRandom(int max){
 }
 
 void executeThread(int id/*Project_Phase_One::CPU cpu, Project_Phase_One::LONG_TERM_SCHEDULER longTerm, Project_Phase_One::LOADER load, Project_Phase_One::RAM ram*/){
-    auto currentTime = std::chrono::system_clock::now();
-    std::time_t sleepTime = std::chrono::system_clock::to_time_t(currentTime);
+    //auto currentTime = std::chrono::system_clock::now();
+
+    /*std::time_t sleepTime = std::chrono::system_clock::to_time_t(currentTime);
 
     tm myLocalTime = *localtime(&sleepTime);
 
@@ -35,7 +36,7 @@ void executeThread(int id/*Project_Phase_One::CPU cpu, Project_Phase_One::LONG_T
     currentTime = std::chrono::system_clock::now();
     sleepTime = std::chrono::system_clock::to_time_t(currentTime);
     std::cout<<"Thread: "<<id<<"Awake time:"<<std::ctime(&sleepTime)<<std::endl;
-    std::cout<<"this thread is number"<<id<<std::endl;
+    std::cout<<"this thread is number"<<id<<std::endl;*/
     /*int listSize = load.getDisk().getDiskList().size();
 
     for (int i = 0; i < listSize; i++) {
@@ -75,15 +76,9 @@ int main() {
 
 
 
-    //}
-    /*std::thread thread1(executeThread, cpu, longTerm, load, ram);
-    thread1.join();
-    std::cout<<"thread ID is "<<thread1.get_id()<<std::endl;
-    std::thread thread2(executeThread, cpu, longTerm, load, ram);
-    thread2.join();*/
     /*std::thread thread1(executeThread, 1);
     thread1.join();
-    std::cout<<"thread ID is "<<thread1.get_id()<<std::endl;
+    std::cout<<"\nthread ID is "<<thread1.get_id()<<std::endl;
     std::thread thread2(executeThread, 2);
     thread2.join();*/
 

@@ -18,100 +18,103 @@ namespace Project_Phase_One {
         int numberOfInstructions;
         int jobNumber;
         int cacheSize;
-        int jobDiskLocation;
-        int jobRamLocation;
+        int jobDiskIndex;
+        int jobRamIndex;
         Process_States processStatus;
         int priority;
         std::array<int, 16> registers;
         bool isIO;
+
         // Data
-        int dataDiskLocation;
-        int dataRamLocation;
+        int dataDiskIndex;
+        int dataRamIndex;
         int inputBuffer;
         int outputBuffer;
         int tempBuffer;
+
         // Schedule
         int burstTime, timeSlice, timeRemaining;
-        std::string queueType;
+
         // Account
         int cupTime, timeLimit, timeDelay, startTime, endTime, ioTime;
+
         // Memories
         int pageTableBase, pages, pageSize;
+
         // Progeny
         int childProcessID;
         PCB* childLeft_ptr;
         PCB* childRight_ptr;
         PCB* parent_ptr;
+
         // Resources
-        bool isPCBInRam = false;
+        bool isPCBInRam;
         int unitNumber;
-        std::array<std::string, 1024> cache;
+        std::string* cache;
     public:
         // CONSTRUCTOR
         PCB(int jobNumber, int priority, int numberOfInstrucions, int jobDiskLocation);
         PCB();
         // The Getter will return a private member of this class.
-        bool getIsIO();
-        int get_CPU_ID();
-        int getProgramCounter();
-        int getJobNumber();
-        int getNumberOfInstructions();
-        int getJobDiskLocation();
-        int getCacheSize();
-        int getJobRamLocation();
-        Process_States getProcessStatus();
-        int getPriority();
-        std::array<int, 16> getRegisters();
-        int getDataDiskLocation();
-        int getDataRamLocation();
-        int getInputBuffer();
-        int getOutputBuffer();
-        int getTempBuffer();
-        int getBurstTIme();
-        int getTimeSlice();
-        int getTimeRemaining();
-        std::string getQueueType();
-        int getPageTableBase();
-        int getPages();
-        int getPageSize();
-        int getChildProcessID();
-        PCB* getChildLeft();
-        PCB* getChildRight();
-        PCB* getParent();
-        std::array<std::string, 1024> getCache();
-        bool getIsPCBInRam();
+        bool getIsIO(){ return isIO; }
+        int get_CPU_ID(){ return cpuID; }
+        int getProgramCounter(){ return programCounter; }
+        int getJobNumber(){ return jobNumber; }
+        int getNumberOfInstructions(){ return numberOfInstructions; }
+        int getJobDiskIndex(){ return jobDiskIndex; }
+        int getJobRamIndex(){return jobRamIndex; }
+        int getCacheSize(){ return cacheSize; }
+        Process_States getProcessStatus(){ return processStatus; }
+        int getPriority(){ return priority; }
+        std::array<int, 16> getRegisters(){ return registers; }
+        int getDataDiskIndex(){ return dataDiskIndex; }
+        int getDataRamIndex(){ return dataRamIndex; }
+        int getInputBuffer(){ return inputBuffer; }
+        int getOutputBuffer(){ return outputBuffer; }
+        int getTempBuffer(){ return tempBuffer; }
+        int getBurstTIme(){ return burstTime; }
+        int getTimeSlice(){ return timeSlice; }
+        int getTimeRemaining(){ return timeRemaining; }
+        int getPageTableBase(){ return pageTableBase; }
+        int getPages(){ return pages; }
+        int getPageSize(){ return pageSize; }
+        int getChildProcessID(){ return childProcessID; }
+        PCB* getChildLeft(){ return childLeft_ptr; }
+        PCB* getChildRight(){ return childRight_ptr; }
+        PCB* getParent(){ return parent_ptr; }
+        std::string* getCache(){ return cache; }
+        bool getIsPCBInRam(){ return isPCBInRam; }
 
         // The Setter will set the member of this class
 
-        void setIsIO(bool isIO);
-        void set_CPU_ID(int cupID);
-        void setProgramCounter(int programCounter);
-        void setJobNumber(int jobNumber);
-        void setJobDiskLocation(int jobDiskLocation);
-        void setNumberOfInstructions(int numberOfInstructions);
-        void setCacheSize(int cacheSize);
-        void setProcessStatus(Process_States processStatus);
-        void setPriority(int priority);
-        void setRegisters(std::array<int, 16> registers);
-        void setDataDiskLocation(int dataDiskLocation);
-        void setJobRamLocation(int jobRamLocation);
-        void setDataRamLocatoin(int dataRamLocation);
-        void setInputBuffer(int inputBuffer);
-        void setOutputBuffer(int outputBuffer);
-        void setTempBuffer(int tempBuffer);
-        void setBurstTIme(int burstTime);
-        void setTimeSlice(int timeSlice);
-        void setTimeRemaining(int timeRemaining);
-        void setQueueType(std::string queueType);
-        void setPageTableBase(int pageTableBase);
-        void setPages(int pages);
-        void setPageSize(int pageSize);
-        void setChildProcessID(int childProcessID);
-        void setChildCodePointerLeft(PCB* childLeft_ptr);
-        void setChildCodePointerRight(PCB* childRight_ptr);
-        void setParent(PCB* parent_ptr);
-        void setCache(std::array<std::string, 1024> cache);
-        void setIsPCBInRam(const bool isPCBInRam);
+        void setIsIO(bool isIO){ this->isIO = isIO; }
+        void set_CPU_ID(int cpuID){ this->cpuID = cpuID; }
+        void setProgramCounter(int programCounter){ this->programCounter = programCounter; }
+        void setJobNumber(int jobNumber){ this->jobNumber = jobNumber; }
+        void setJobDiskIndex(int jobDiskIndex){ this->jobDiskIndex = jobDiskIndex; }
+        void setJobRamIndex(int jobRamIndex){ this->jobRamIndex = jobRamIndex; }
+        void setNumberOfInstructions(int numberOfInstructions){ this->numberOfInstructions = numberOfInstructions; }
+        void setCacheSize(int cacheSize){ this->cacheSize = cacheSize; }
+        void setProcessStatus(Process_States processStatus){ this->processStatus = processStatus; }
+        void setPriority(int priority){ this->priority = priority; }
+        void setRegisters(std::array<int, 16> registers){ this->registers = registers;}
+        void setDataDiskIndex(int dataDiskIndex){ this->dataDiskIndex = dataDiskIndex; }
+        void setDataRamIndex(int dataRamIndex){ this->dataRamIndex = dataRamIndex; }
+        void setInputBuffer(int inputBuffer){ this->inputBuffer = inputBuffer; }
+        void setOutputBuffer(int outputBuffer){ this->outputBuffer = outputBuffer; }
+        void setTempBuffer(int tempBuffer){ this->tempBuffer = tempBuffer; }
+        void setBurstTIme(int burstTime){this->burstTime = burstTime; }
+        void setTimeSlice(int timeSlice){ this->timeSlice = timeSlice; }
+        void setTimeRemaining(int timeRemaining){ this->timeRemaining = timeRemaining; }
+        void setPageTableBase(int pageTableBase){ this->pageTableBase = pageTableBase; }
+        void setPages(int pages){ this->pages = pages; }
+        void setPageSize(int pageSize){ this->pageSize = pageSize; }
+        void setChildProcessID(int childProcessID){ this->childProcessID = childProcessID; }
+        void setChildCodePointerLeft(PCB* childLeft_ptr){ this->childLeft_ptr = childLeft_ptr; }
+        void setChildCodePointerRight(PCB* childRight_ptr){ this->childRight_ptr = childRight_ptr; }
+        void setParent(PCB* parent_ptr){ this->parent_ptr = parent_ptr; }
+        void setCache(std::string* cache){ this->cache = cache; }
+        void setIsPCBInRam(const bool isPCBInRam){ this->isPCBInRam = isPCBInRam; }
     };
 
 }

@@ -12,6 +12,8 @@
 #include <mutex>
 #include <algorithm>
 #include <fstream>
+#include <string>
+#include <iomanip>
 #include "LOADER.h"
 #include "DISK.h"
 #include "PCB.h"
@@ -24,7 +26,7 @@ namespace Project_Phase_One {
     private:
         int testing = 0;
         // The Jobs.
-        int jobNumber, jobCounter, dataAddress;
+        int jobNumber, numberOfInstructions, dataAddress;
 
         // There's 16 registers.
         std::array<int, 16> registers;
@@ -37,48 +39,73 @@ namespace Project_Phase_One {
 
         // The cache.
         int cacheSize;
-        std::array<std::string, 1024> cache;
+        std::string cache[100];
         // The time spent one the CPU.
         int startTime, endTime, totalTime = 0;
+
         // The Instructions.
         int opCode;
-        std::string* instructionCache;
         int programCounter;
         int ioCount;
         ProcessorState processorState;
         int cpuID;
-        Project_Phase_One::Process_States processStates;
+        Project_Phase_One::Process_States processState;
+        int jobRamIndex;
         bool isIO;
-        std::ofstream myfile();
+
     public:
+        //MARK: Constructor
         CPU();
-        void loadProcess(Project_Phase_One::PCB process, Project_Phase_One::RAM ram);
-        void unloadProcess(Project_Phase_One::PCB process);
-        void executeProcess();
-        void runProcess();
+
+        //MARK: Member Methods
+        void executeInstructions();
+        void runProcess(std::string *RAM);
         std::string fetchInstruction(int programCounter);
         void decode(std::string instruction);
         void setRegisters(std::string opCode);
-        std::string hexToBinary(std::string hex);
+        std::string hexToBinary(std::string hex);std::string decToHex(int dec);
+
 
         //MARK: Setter
         void setJobNumber(const int jobNumber){ this->jobNumber = jobNumber; }
-        void setJobCounter(const int jobCounter){ this->jobCounter = jobCounter; }
+        void setNumberOfInstructions(const int numberOfInstructions){ this->numberOfInstructions = numberOfInstructions; }
         void setInputBuffer(const int inputBuffer){ this->inputBuffer = inputBuffer; }
         void setOutputBuffer(const int outputBuffer){ this->outputBuffer = outputBuffer; }
         void setTempBuffer(const int tempBuffer){ this->tempBuffer = tempBuffer; }
+
         void setRegister(const std::array<int, 16> registers){this->registers = registers; }
         void setProcessorState( ProcessorState processorState){ this->processorState = processorState; }
+
+        void setStartTime(const int startTime){ this->startTime = startTime; }
+        void setEndTime(const int endTime){ this->endTime = endTime;}
+        void setTotalTime(const int totalTime){ this->totalTime = totalTime;}
+
+        void setProgramCounter(const int programCounter){ this->programCounter = programCounter; }
+        void setProcessState(const Project_Phase_One::Process_States processState){ this->processState = processState; }
+        void setCPUID(const int cpuID){ this->cpuID = cpuID; }
+        void setIOCount(const int ioCount){ this->ioCount = ioCount; }
+        //void setCacheSize(const int cacheSize){ this->cacheSize = cacheSize;}
+        //void setCache(std::string *cache){ this->cache = cache; }
+        void setJobRamIndex(int jobRamIndex){ this->jobRamIndex = jobRamIndex; }
 
 
         //MARK: Getter
         int getJobNumber(){ return jobNumber; }
-        int getJobCounter(){ return jobCounter; }
+        int getNumberOfInstructions(){ return numberOfInstructions; }
         int getInputBuffer(){ return inputBuffer; }
         int getOutputBuffer(){ return outputBuffer; }
         int getTempBuffer(){ return tempBuffer; }
         std::array<int, 16> getRegister(){ return registers; }
         ProcessorState getProcessorState(){ return processorState; }
+        int getStartTime(){ return startTime; }
+        int getEndTime(){ return endTime; }
+        int getTotalTime(){return totalTime; }
+        int getProgramCounter(){ return programCounter; }
+        Project_Phase_One::Process_States getProcessState(){ return processState; }
+        int getCPUID(){ return cpuID; }
+        int getIOCount(){ return ioCount; }
+        int getCacheSize(){ return cacheSize; }
+        std::string* getCache(){ return cache;}
 
     };
 

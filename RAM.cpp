@@ -57,7 +57,7 @@ void Project_Phase_One::RAM::writeToRAM(int index, std::string entry) {
                      process.getNumberOfInstructions();
     //std::cout<<"this is the ram "<<loadAmount<<" + "<<ramCount<<" <= "<<ramSize<<std::endl;
     if((loadAmount+ramCount) <= ramSize){
-        process.setJobRamLocation(process.getJobDiskLocation());
+        process.setJobRamIndex(process.getJobDiskIndex());
         readyQueue.push_back(process);
     }
 

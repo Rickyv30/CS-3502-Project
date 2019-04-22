@@ -7,12 +7,13 @@
 
 #include <iostream>
 #include <list>
+#include <thread>
 #include "PCB.h"
 #include "LOADER.h"
 #include "LONG_TERM_SCHEDULER.h"
 #include "SHORT_TERM_SCHEDULER.h"
 #include "CPU.h"
-#include "CONTENT_SWITCHER.h"
+#include "DISPATCHER.h"
 
 namespace Project_Phase_One{
 
@@ -22,7 +23,7 @@ namespace Project_Phase_One{
         LOADER load;
         LONG_TERM_SCHEDULER longTerm;
         SHORT_TERM_SCHEDULER shortTerm;
-        CONTENT_SWITCHER switcher;
+        DISPATCHER switcher;
 
         std::list<Project_Phase_One::PCB> PCBInDISK;
         std::list<Project_Phase_One::PCB> PCBInRAM;

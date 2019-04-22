@@ -64,7 +64,7 @@ namespace Project_Phase_One{
                 int tempBuffer = std::stoi(dataToken[4], nullptr, 16);
 
 
-                JOB.setDataDiskLocation(index);
+                JOB.setDataDiskIndex(index);
                 JOB.setInputBuffer(inputBuffer);
                 JOB.setOutputBuffer(outputBuffer);
                 JOB.setTempBuffer(tempBuffer);
