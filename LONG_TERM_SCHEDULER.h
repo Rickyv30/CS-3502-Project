@@ -5,8 +5,6 @@
 #ifndef C_PROJECT_LONG_TERM_SCHEDULER_H
 #define C_PROJECT_LONG_TERM_SCHEDULER_H
 #include <iostream>
-#include "DISK.h"
-#include "RAM.h"
 #include "LOADER.h"
 #include "MEMORY_MANAGEMENT_UNIT.h"
 

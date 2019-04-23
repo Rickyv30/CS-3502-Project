@@ -8,7 +8,6 @@
 #include <iostream>
 #include <list>
 #include "PCB.h"
-#include "DISK.h"
 #include "MEMORY_MANAGEMENT_UNIT.h"
 namespace Project_Phase_One{
     class LOADER {

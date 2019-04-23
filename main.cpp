@@ -8,11 +8,9 @@
 #include <mutex>
 #include <array>
 #include "PCB.h"
-#include "DISK.h"
 #include "CPU.h"
 #include "LOADER.h"
 #include "LONG_TERM_SCHEDULER.h"
-#include "RAM.h"
 #include "SHORT_TERM_SCHEDULER.h"
 #include "DRIVER.h"
 

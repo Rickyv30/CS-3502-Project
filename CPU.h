@@ -15,9 +15,7 @@
 #include <string>
 #include <iomanip>
 #include "LOADER.h"
-#include "DISK.h"
 #include "PCB.h"
-#include "RAM.h"
 
 
 namespace Project_Phase_One {

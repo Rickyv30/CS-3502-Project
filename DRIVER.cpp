@@ -19,7 +19,7 @@ namespace Project_Phase_One {
             //std::cout<<"inst: "<<it->getNumberOfInstructions()<<" input: "<<it->getInputBuffer()<<" output"<<it->getOutputBuffer()<<" temp: "<<it->getTempBuffer()<<std::endl;
 
             //0:fifo, 1: Pri, 2: SJF
-            shortTerm.setScheduler(1);
+            shortTerm.setScheduler(0);
 
 
             shortTerm.schedule(&PCBInRAM, &ready_queue);
@@ -46,8 +46,10 @@ namespace Project_Phase_One {
                     }
 
                     for (auto &thread : threads) {
-                        //std::cout<<"Thread_ID: "<<thread.get_id()<<"."<<std::endl;
+
                         thread.join();
+                        //std::cout<<"Thread_ID: "<<thread.get_id()<<" for cpu"<<std::endl;
+
 
                     }
 

@@ -9,7 +9,6 @@
 #include <list>
 #include "LONG_TERM_SCHEDULER.h"
 #include "PCB.h"
-#include "RAM.h"
 
 
 namespace Project_Phase_One {

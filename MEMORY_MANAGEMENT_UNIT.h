@@ -6,7 +6,6 @@
 #define C_PROJECT_MEMORY_MANAGEMENT_UNIT_H
 
 #include <iostream>
-#include "MEMORY_MANAGEMENT_UNIT.h"
 
 
 namespace Project_Phase_One {
