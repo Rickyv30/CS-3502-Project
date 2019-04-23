@@ -6,24 +6,28 @@
 #define C_PROJECT_DRIVER_H
 
 #include <iostream>
-#include <list>
+#include <vector>
 #include <thread>
+#include <mutex>
 #include "PCB.h"
 #include "LOADER.h"
 #include "LONG_TERM_SCHEDULER.h"
 #include "SHORT_TERM_SCHEDULER.h"
 #include "CPU.h"
 #include "DISPATCHER.h"
+#include "MEMORY_MANAGEMENT_UNIT.h"
 
 namespace Project_Phase_One{
 
     class DRIVER {
     private:
         // Mark: Software
+        const static int number_of_cpu_core = 1;
         LOADER load;
         LONG_TERM_SCHEDULER longTerm;
         SHORT_TERM_SCHEDULER shortTerm;
         DISPATCHER switcher;
+        MEMORY_MANAGEMENT_UNIT mmu;
 
         std::list<Project_Phase_One::PCB> PCBInDISK;
         std::list<Project_Phase_One::PCB> PCBInRAM;
@@ -32,11 +36,16 @@ namespace Project_Phase_One{
         // Mark: Hardware
         std::string RAM[1024];
         std::string DISK[2048];
-        CPU cpu;
+        std::mutex PCB_Lock;
+        CPU cpu[4];
+        CPU cpu1;
+        int i = 1;
+        int initialTime = 0;
     public:
         DRIVER();
-        void RUN();
+        void setFrameWork();
         void dumpRAM();
+        void RUN();
 
     };
 

@@ -32,7 +32,7 @@ namespace Project_Phase_One {
         std::array<int, 16> registers;
 
         // These will be the registers for execution.
-        int s_reg1, s_reg2, d_reg, b_reg, reg1, reg2, instuctionAddress;
+        int s_reg1, s_reg2, arithmetic_d_reg, branch_immediate_d_reg, b_reg, reg1, reg2, instuctionAddress;
 
         // The buffers.
         int inputBuffer, outputBuffer, tempBuffer;
@@ -56,10 +56,11 @@ namespace Project_Phase_One {
     public:
         //MARK: Constructor
         CPU();
+        CPU(int cpuID);
 
         //MARK: Member Methods
         void executeInstructions();
-        void runProcess(std::string *RAM);
+        void runProcess(MEMORY_MANAGEMENT_UNIT *mmu);
         std::string fetchInstruction(int programCounter);
         void decode(std::string instruction);
         void setRegisters(std::string opCode);
@@ -87,6 +88,7 @@ namespace Project_Phase_One {
         //void setCacheSize(const int cacheSize){ this->cacheSize = cacheSize;}
         //void setCache(std::string *cache){ this->cache = cache; }
         void setJobRamIndex(int jobRamIndex){ this->jobRamIndex = jobRamIndex; }
+        void hello(int y, int x){std::cout<<"hello world"<<x+y<<std::endl;}
 
 
         //MARK: Getter
@@ -106,6 +108,7 @@ namespace Project_Phase_One {
         int getIOCount(){ return ioCount; }
         int getCacheSize(){ return cacheSize; }
         std::string* getCache(){ return cache;}
+
 
     };
 

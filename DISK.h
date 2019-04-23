@@ -18,11 +18,11 @@ namespace Project_Phase_One {
 
         auto removePCBFromDisk(const int index);
 
-        void writeToDisk(const int index, const std::string entry);
+        friend void writeToDisk(DISK d1, const int index, const std::string entry);
 
         std::string pReader(int index, int size, std::string instructions);
 
-        std::string readFromDisk(const int index);
+        friend std::string readFromDisk(DISK d1, const int index);
 
         PCB getCurrentPCBFromDisk(const int PCBPositionInDisk);
 

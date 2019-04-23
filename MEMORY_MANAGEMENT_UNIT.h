@@ -6,16 +6,17 @@
 #define C_PROJECT_MEMORY_MANAGEMENT_UNIT_H
 
 #include <iostream>
+#include "MEMORY_MANAGEMENT_UNIT.h"
 
 
 namespace Project_Phase_One {
 
     class MEMORY_MANAGEMENT_UNIT {
     private:
-        const int MAX_DISK_SPACE = 2048;
-        const int MAX_RAM_SPACE = 1024;
-        std::string *DISK;
-        std::string *RAM;
+        const static int MAX_DISK_SPACE = 2048;
+        const static int MAX_RAM_SPACE = 1024;
+        std::string DISK[MAX_DISK_SPACE];
+        std::string RAM[MAX_RAM_SPACE];
 
     public:
         MEMORY_MANAGEMENT_UNIT();

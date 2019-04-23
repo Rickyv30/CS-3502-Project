@@ -12,7 +12,7 @@
 
 namespace Project_Phase_One{
 
-    void LOADER::loading(std::string path, std::string instructions[], std::list<PCB> *newPCBList) {
+    void LOADER::loading(std::string path, MEMORY_MANAGEMENT_UNIT *mmu, std::list<PCB> *newPCBList) {
         std::ifstream fileReader(path);
         std::string content;
         std::string findJob = "JOB";
@@ -78,9 +78,9 @@ namespace Project_Phase_One{
 
             }else {
 
-                if(instructions[index].find(findEmptyFrame) != std::string::npos){
+                if(mmu->readFromDisk(index).find(findEmptyFrame) != std::string::npos){
 
-                    instructions[index] = content;
+                    mmu->writeToDisk(index, content);
                     index++;
 
                 }else{

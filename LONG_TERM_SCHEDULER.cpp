@@ -7,7 +7,7 @@
 namespace Project_Phase_One {
 
 
-    void LONG_TERM_SCHEDULER::LongTermSheduler(std::string *DISK, std::string *RAM,
+    void LONG_TERM_SCHEDULER::LongTermSheduler(MEMORY_MANAGEMENT_UNIT *mmu,
                                                std::list<Project_Phase_One::PCB> *PCBInDISK,
                                                std::list<Project_Phase_One::PCB> *PCBInRAM) {
         index = 0;
@@ -23,9 +23,10 @@ namespace Project_Phase_One {
                 it->setJobRamIndex(index);
                 PCBInRAM->push_back(*it);
                 for(int i = 0; i < size_of_instructions; i++){
-                    if (RAM[index].find(FIND_EMPTY_FRAME) != std::string::npos){
+                    if (mmu->readFromRam(index).find(FIND_EMPTY_FRAME) != std::string::npos){
 
-                        RAM[index++] = DISK[disk_index++];
+                        //RAM[index++] = DISK[disk_index++];
+                        mmu->writeToRam(index++, mmu->readFromDisk(disk_index++));
 
                     }else {
 

@@ -9,6 +9,7 @@
 #include <list>
 #include "PCB.h"
 #include "DISK.h"
+#include "MEMORY_MANAGEMENT_UNIT.h"
 namespace Project_Phase_One{
     class LOADER {
     private:
@@ -17,7 +18,7 @@ namespace Project_Phase_One{
 
 
     public:
-        void loading(std::string path, std::string instructions[], std::list<PCB> *newPCBList);
+        void loading(std::string path, MEMORY_MANAGEMENT_UNIT *mmu, std::list<PCB> *newPCBList);
 
 
     };

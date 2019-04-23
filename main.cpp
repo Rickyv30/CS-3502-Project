@@ -69,18 +69,24 @@ void executeThread(int id/*Project_Phase_One::CPU cpu, Project_Phase_One::LONG_T
 
 }
 
+void hello(int y, int x){std::cout<<"hello world"<<x+y<<std::endl;}
+
 
 int main() {
+    int start = clock();
     Project_Phase_One::DRIVER driver;
-    driver.RUN();
+    std::cout<<"Operating System START: "<<start/double(CLOCKS_PER_SEC)<<std::endl;
+    driver.setFrameWork();
+    int end = clock();
+    std::cout<<"\nOperating System END: "<<end/double(CLOCKS_PER_SEC)<<std::endl;
+    std::cout<<"Operating System TOTAL: "<<(end-start)/double(CLOCKS_PER_SEC)<<std::endl;
 
 
+    /*std::thread thread1(&Project_Phase_One::DRIVER::setFrameWork, driver);
+    thread1.join();*/
 
-    /*std::thread thread1(executeThread, 1);
-    thread1.join();
-    std::cout<<"\nthread ID is "<<thread1.get_id()<<std::endl;
-    std::thread thread2(executeThread, 2);
-    thread2.join();*/
+    //std::thread thread1(&Project_Phase_One::DRIVER::RUN, 4, driver);
+    //thread1.join();
 
 
 

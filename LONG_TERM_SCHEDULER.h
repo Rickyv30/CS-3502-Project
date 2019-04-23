@@ -8,6 +8,7 @@
 #include "DISK.h"
 #include "RAM.h"
 #include "LOADER.h"
+#include "MEMORY_MANAGEMENT_UNIT.h"
 
 
 namespace Project_Phase_One {
@@ -20,7 +21,7 @@ namespace Project_Phase_One {
         int index = 0;
     public:
         bool canAdd(std::list<PCB> *PCBInDISK) const;
-        void LongTermSheduler(std::string DISK[], std::string RAM[], std::list<PCB> *PCBInDISK, std::list<PCB> *PCBInRAM);
+        void LongTermSheduler(MEMORY_MANAGEMENT_UNIT *mmu, std::list<PCB> *PCBInDISK, std::list<PCB> *PCBInRAM);
 
     };
 

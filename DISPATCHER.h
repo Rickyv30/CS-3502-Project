@@ -18,6 +18,8 @@ namespace Project_Phase_One{
         void loadPCBToCPU(std::list<Project_Phase_One::PCB> *ready_queue, CPU *cpu);
         void unloadPCBFromCPU(std::list<Project_Phase_One::PCB> *wait_queue, CPU *cpu, Project_Phase_One::PCB *pcb);
     private:
+        int totalTime = 0;
+
     };
 
 

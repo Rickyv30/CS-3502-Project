@@ -7,16 +7,15 @@
 
 namespace Project_Phase_One{
     MEMORY_MANAGEMENT_UNIT::MEMORY_MANAGEMENT_UNIT() {
-        DISK = new std::string[MAX_DISK_SPACE];
-        RAM = new std::string[MAX_RAM_SPACE];
 
+        for (int i = 0; i < MAX_DISK_SPACE; i++){
+            DISK[i] = "EMPTY";
+        }
 
-    }
+        for (int i = 0; i < MAX_RAM_SPACE; i++){
+            RAM[i] = "EMPTY";
+        }
 
-    MEMORY_MANAGEMENT_UNIT::MEMORY_MANAGEMENT_UNIT(std::string *DISK, std::string *RAM) {
-
-        this->DISK = DISK;
-        this->RAM = RAM;
 
     }
 

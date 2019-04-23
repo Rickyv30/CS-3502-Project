@@ -44,7 +44,28 @@ namespace Project_Phase_One{
 
         }
         else{
-            std::cout<<"This the shortest job first algorithm."<<std::endl;
+            while(!PCB_in_RAM->empty()){
+                std::list<Project_Phase_One::PCB>::iterator it = PCB_in_RAM->begin();
+                int shortest_job = 100000;
+                int save_shortest_job_index = 0;
+                int currentIndex = 0;
+                for(auto current = PCB_in_RAM->begin(); current != PCB_in_RAM->end(); current++){
+                    if(shortest_job > current->getNumberOfInstructions()){
+
+                        currentIndex++;
+                        save_shortest_job_index = currentIndex - 1;
+                        shortest_job = current->getNumberOfInstructions();
+                    }else
+                        currentIndex++;
+
+                }
+                std::advance(it, save_shortest_job_index);
+                it->setProcessStatus(READY);
+
+                ready_queue->push_back(*it);
+                PCB_in_RAM->erase(it);
+                resetIterator(&it, save_shortest_job_index);
+            }
 
         }
 
