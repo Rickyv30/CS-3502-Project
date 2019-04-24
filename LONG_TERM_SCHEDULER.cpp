@@ -15,9 +15,9 @@ namespace Project_Phase_One {
             std::list<Project_Phase_One::PCB>::iterator it = PCBInDISK->begin();
             int disk_index = it->getJobDiskIndex();
             int size_of_instructions = it->getNumberOfInstructions()+
-                                        it->getInputBuffer()+
-                                        it->getOutputBuffer()+
-                                        it->getTempBuffer();
+                                       it->getInputBuffer()+
+                                       it->getOutputBuffer()+
+                                       it->getTempBuffer();
             if(MAX_RAM_SPACE > (size_of_instructions + index)){
                 it->setIsPCBInRam(true);
                 it->setJobRamIndex(index);
@@ -45,13 +45,12 @@ namespace Project_Phase_One {
     bool LONG_TERM_SCHEDULER::canAdd(std::list<PCB> *PCBInDISK) const {
         std::list<Project_Phase_One::PCB>::iterator it = PCBInDISK->begin();
         int size_of_instruction = it->getNumberOfInstructions()+
-                it->getOutputBuffer()+
-                it->getInputBuffer()+
-                it->getTempBuffer();
+                                  it->getOutputBuffer()+
+                                  it->getInputBuffer()+
+                                  it->getTempBuffer();
         return MAX_RAM_SPACE > (index + size_of_instruction);
 
     }
 
 
 }
-

@@ -15,12 +15,14 @@ namespace Project_Phase_One {
         processStatus = NEW;
         registers[1] = 0;
         programCounter = 0;
+        //IOCount = 0;
 
     }
     PCB::PCB(){
         processStatus = NEW;
         registers[1] = 0;
         programCounter = 0;
+        //IOCount = 0;
     }
 
 }

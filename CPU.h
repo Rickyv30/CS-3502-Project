@@ -37,19 +37,18 @@ namespace Project_Phase_One {
 
         // The cache.
         int cacheSize;
-        std::string cache[100];
+        std::array<std::string, 72> cache;
         // The time spent one the CPU.
         int startTime, endTime, totalTime = 0;
 
         // The Instructions.
         int opCode;
         int programCounter;
-        int ioCount;
+        int IOCount;
         ProcessorState processorState;
         int cpuID;
         Project_Phase_One::Process_States processState;
         int jobRamIndex;
-        bool isIO;
 
     public:
         //MARK: Constructor
@@ -63,6 +62,7 @@ namespace Project_Phase_One {
         void decode(std::string instruction);
         void setRegisters(std::string opCode);
         std::string hexToBinary(std::string hex);std::string decToHex(int dec);
+        std::mutex PCB_lock;
 
 
         //MARK: Setter
@@ -82,11 +82,10 @@ namespace Project_Phase_One {
         void setProgramCounter(const int programCounter){ this->programCounter = programCounter; }
         void setProcessState(const Project_Phase_One::Process_States processState){ this->processState = processState; }
         void setCPUID(const int cpuID){ this->cpuID = cpuID; }
-        void setIOCount(const int ioCount){ this->ioCount = ioCount; }
-        //void setCacheSize(const int cacheSize){ this->cacheSize = cacheSize;}
-        //void setCache(std::string *cache){ this->cache = cache; }
+        void setIOCount(const int ioCount){ this->IOCount = IOCount; }
+        void setCacheSize(const int cacheSize){ this->cacheSize = cacheSize;}
+        void setCache(std::array<std::string, 72> cache){ this->cache = cache; }
         void setJobRamIndex(int jobRamIndex){ this->jobRamIndex = jobRamIndex; }
-        void hello(int y, int x){std::cout<<"hello world"<<x+y<<std::endl;}
 
 
         //MARK: Getter
@@ -103,9 +102,10 @@ namespace Project_Phase_One {
         int getProgramCounter(){ return programCounter; }
         Project_Phase_One::Process_States getProcessState(){ return processState; }
         int getCPUID(){ return cpuID; }
-        int getIOCount(){ return ioCount; }
+        int getIOCount(){ return IOCount; }
         int getCacheSize(){ return cacheSize; }
-        std::string* getCache(){ return cache;}
+        std::array<std::string, 72> getCache(){ return cache;}
+        int getJobRamIndex(){return jobRamIndex;}
 
 
     };

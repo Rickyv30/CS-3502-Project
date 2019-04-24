@@ -23,45 +23,48 @@ namespace Project_Phase_One {
 
 
             shortTerm.schedule(&PCBInRAM, &ready_queue);
-
+            initialTime = clock();
             while(!ready_queue.empty()){
 
                 try {
-                    std::vector<std::thread> threads;
+                    if(ready_queue.size() > number_of_cpu_core){
 
-                    for(int i =0; i<1; i++){
-                        //std::thread new_thread(&Project_Phase_One::DRIVER::RUN, this);
-                        if(ready_queue.empty()){
-                            break;
+                        std::vector<std::thread> threads;
+                        //threads.reserve(number_of_cpu_core);
+                        for(int i =0; i<number_of_cpu_core; i++){
+                            threads.emplace_back(&Project_Phase_One::DRIVER::RUN, this);
+
                         }
-                            else
-                                threads.push_back(std::thread(&Project_Phase_One::DRIVER::RUN, this));
-                        //std::cout<<"Thread size is: "<<threads.size()<<"."<<std::endl;
+                        for (auto &thread : threads) {
+                            //std::cout<<"Thread ID is: "<<thread.get_id()<<"."<<std::endl;
+                            thread.join();
+                            //std::cout<<"Thread_ID executes at "<<clock()/double(CLOCKS_PER_SEC)<<"."<<std::endl;
+                        }
 
+                    }else{
+                        //std::cout<<"this is the else statement and the size of the ready is "<<ready_queue.size()<<std::endl;
+                        std::vector<std::thread> threads;
+                        //threads.reserve(ready_queue.size());
+                        for(int i =0; i<ready_queue.size(); i++){
+                            threads.emplace_back(&Project_Phase_One::DRIVER::RUN, this);
+                        }
+                        for (auto &thread : threads) {
+                            //std::cout<<"Thread ID is: "<<thread.get_id()<<"."<<std::endl;
+                            thread.join();
+
+                        }
 
                     }
 
-                    if(ready_queue.empty()){
-                        break;
-                    }
 
-                    for (auto &thread : threads) {
+                }catch (std::exception& exception ){
 
-                        thread.join();
-                        //std::cout<<"Thread_ID: "<<thread.get_id()<<" for cpu"<<std::endl;
-
-
-                    }
-
-
-                    }catch (std::exception& exception ){
-
-                        //std::cout<<"hellow world.\n";
-                    }
-
+                    //std::cout<<"hellow world.\n";
                 }
-                dumpRAM();
+
             }
+            dumpRAM(&completed_jobs, &mmu);
+        }
 
 
 
@@ -69,23 +72,67 @@ namespace Project_Phase_One {
 
     }
 
-    void DRIVER::dumpRAM() {
+    void DRIVER::dumpRAM(std::list<Project_Phase_One::PCB> *completed_jobs, MEMORY_MANAGEMENT_UNIT *mmu) {
+
+        std::ofstream myfile;
+        myfile.open("RAM DUMP");
+        int total_time = 0;
+        for(auto it = completed_jobs->begin(); it != completed_jobs->end(); it++){
+
+            std::array<std::string, 72> RAMTemp = it->getCache();
+
+            /*for (int i = 0; i < it->getCacheSize(); ++i) {
+                if(i == 0){
+                    myfile<<"JOB # "<<it->getJobNumber()<<"\n";
+                    std::cout<<"\nJOB # "<<it->getJobNumber()<<std::endl;
+
+                }
+                else if (i == it->getNumberOfInstructions()){
+                    myfile<<"INPUT_BUFFER\n";
+                    std::cout<<"INPUT_BUFFER"<<std::endl;
+
+                }
+                else if(i == (it->getNumberOfInstructions() + it->getInputBuffer())){
+                    myfile<<"OUTPUT_BUFFER\n";
+                    std::cout<<"OUTPUT_BUFFER"<<std::endl;
+
+                }
+                else if(i == (it->getNumberOfInstructions() + it->getInputBuffer() + it->getOutputBuffer())){
+                    myfile<<"TEMP_BUFFER\n";
+                    std::cout<<"TEMP_BUFFER"<<std::endl;
+
+                }
+                myfile<<RAMTemp[i]<<"\n";
+                std::cout<<RAMTemp[i]<<std::endl;
+
+            }
+*/
+            total_time += it->getBurstTIme();
+            std::cout<<"\nJob Number # "<<it->getJobNumber()<<" has completed execution."
+                     <<"\nWait Time: "<<it->getTimeSlice()/double(CLOCKS_PER_SEC)<<" ns."
+                     <<"\nBurst Time: "<<it->getBurstTIme()/double(CLOCKS_PER_SEC)<<" ns. "
+                     <<"\ncache use: "<<(it->getCacheSize()/72.0)*100<<"%. "
+                     <<"\nI/O Count: "<<it->getIOCount()<<std::endl;
+            completed_jobs->pop_front();
+        }
+
+
+
         if(ready_queue.empty()){
             for (int i = 0; i < 1024; i++){
-                mmu.writeToRam(i , "EMPTY");
+                mmu->writeToRam(i , "EMPTY");
             }
 
         }
 
+        myfile.close();
     }
 
     void DRIVER::RUN() {
         PCB_Lock.lock();
         switcher.loadPCBToCPU(&ready_queue, &cpu1);
-
         cpu1.runProcess(&mmu);
-
-        switcher.unloadPCBFromCPU(&wait_queue, &cpu1, new PCB());
+        switcher.unloadPCBFromCPU(&wait_queue, &completed_jobs, &cpu1, new PCB(), initialTime);
         PCB_Lock.unlock();
 
     }

@@ -6,9 +6,11 @@
 
 namespace Project_Phase_One{
     void DISPATCHER::loadPCBToCPU(std::list<Project_Phase_One::PCB> *ready_queue, CPU *cpu) {
+        std::lock_guard<std::mutex> G_lock(PCB_Lock);
         cpu->setStartTime(clock());
+
         std::list<Project_Phase_One::PCB>::iterator it = ready_queue->begin();
-        //std::cout<<" === loading PCB # "<<it->getJobNumber()<<" === \n";
+
         cpu->setProcessorState(LOADING);
 
 
@@ -25,14 +27,18 @@ namespace Project_Phase_One{
         cpu->setCPUID(it->get_CPU_ID());
         cpu->setIOCount(0);
 
-        //cpu->setCacheSize(cpu->getInputBuffer() + cpu->getOutputBuffer() + cpu->getTempBuffer() + cpu->getJobCounter());
-        //it->setCacheSize(cpu->getInputBuffer() + cpu->getOutputBuffer() + cpu->getTempBuffer() + cpu->getJobCounter());
+        cpu->setCacheSize(cpu->getInputBuffer() + cpu->getOutputBuffer() + cpu->getTempBuffer() + cpu->getNumberOfInstructions());
+
 
         ready_queue->pop_front();
 
     }
 
-    void DISPATCHER::unloadPCBFromCPU(std::list<Project_Phase_One::PCB> *wait_queue, CPU *cpu, Project_Phase_One::PCB *pcb) {
+    void DISPATCHER::unloadPCBFromCPU(std::list<Project_Phase_One::PCB> *wait_queue,
+                                      std::list<Project_Phase_One::PCB> *completed_job,
+                                      CPU *cpu, Project_Phase_One::PCB *pcb,
+                                      int initial_time) {
+        //std::lock_guard<std::mutex> G_lock(PCB_Lock);
         cpu->setEndTime(clock());
 
         cpu->setProcessorState(UNLOADING);
@@ -47,22 +53,29 @@ namespace Project_Phase_One{
         pcb->setTempBuffer(cpu->getTempBuffer());
         pcb->setProgramCounter(cpu->getProgramCounter());
         pcb->setCacheSize(cpu->getCacheSize());
+        pcb->setCache(cpu->getCache());
+        pcb->setIOCount(cpu->getIOCount());
+        pcb->setTimeSlice(cpu->getEndTime() - initial_time);
 
 
         if(cpu->getNumberOfInstructions() > cpu->getProgramCounter()){
             pcb->setProcessStatus(WAITING);
-            std::cout<<"=== This PCB is going into the wait queue=== \n"<<std::endl;
             wait_queue->push_back(*pcb);
         }
         else {
 
             pcb->setProcessStatus(TERMINATE);
-            std::cout<<"\n* Job # "<<cpu->getJobNumber()<<"*"<<std::endl;
-            std::cout<<"* There was "<<cpu->getIOCount()<<" I/O counts.*"<<std::endl;
-            std::cout<<"* This process spend "<<(cpu->getEndTime()-cpu->getStartTime())/double(CLOCKS_PER_SEC)<<" seconds on the CPU.*"<<std::endl;
-            cpu->setTotalTime(cpu->getEndTime() - cpu->getStartTime());
-            totalTime += (cpu->getEndTime() - cpu->getStartTime());
-            std::cout<<"* The total process time "<<totalTime/double(CLOCKS_PER_SEC)<<"*"<<std::endl;
+            //std::cout<<"\n* Job # "<<cpu->getJobNumber()<<"*"<<std::endl;
+            //std::cout<<"* There was "<<cpu->getIOCount()<<" I/O counts.*"<<std::endl;
+            //std::cout<<"* This process spend "<<(cpu->getEndTime()-cpu->getStartTime())/double(CLOCKS_PER_SEC)<<" seconds on the CPU.*"<<std::endl;
+            //cpu->setTotalTime(cpu->getEndTime() - cpu->getStartTime());
+            //pcb->setBurstTIme((cpu->getEndTime()-cpu->getStartTime())/double(CLOCKS_PER_SEC));
+            //totalTime += (cpu->getEndTime() - cpu->getStartTime());
+            //std::cout<<"* The total process time "<<totalTime/double(CLOCKS_PER_SEC)<<"*"<<std::endl;
+            //pcb->setIOCount(cpu->getIOCount());
+            pcb->setBurstTIme((cpu->getEndTime()-cpu->getStartTime()));
+            completed_job->push_back(*pcb);
+
 
         }
 

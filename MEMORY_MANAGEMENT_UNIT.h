@@ -6,6 +6,7 @@
 #define C_PROJECT_MEMORY_MANAGEMENT_UNIT_H
 
 #include <iostream>
+#include <mutex>
 
 
 namespace Project_Phase_One {
@@ -16,6 +17,7 @@ namespace Project_Phase_One {
         const static int MAX_RAM_SPACE = 1024;
         std::string DISK[MAX_DISK_SPACE];
         std::string RAM[MAX_RAM_SPACE];
+        std::mutex lock;
 
     public:
         MEMORY_MANAGEMENT_UNIT();

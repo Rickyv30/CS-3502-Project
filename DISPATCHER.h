@@ -8,6 +8,7 @@
 #include <list>
 #include <chrono>
 #include <ctime>
+#include <mutex>
 #include "PCB.h"
 #include "CPU.h"
 
@@ -16,9 +17,10 @@ namespace Project_Phase_One{
     class DISPATCHER {
     public:
         void loadPCBToCPU(std::list<Project_Phase_One::PCB> *ready_queue, CPU *cpu);
-        void unloadPCBFromCPU(std::list<Project_Phase_One::PCB> *wait_queue, CPU *cpu, Project_Phase_One::PCB *pcb);
+        void unloadPCBFromCPU(std::list<Project_Phase_One::PCB> *wait_queue, std::list<Project_Phase_One::PCB> *completed_jobs,
+                              CPU *cpu, Project_Phase_One::PCB *pcb, int initial_time);
     private:
-        int totalTime = 0;
+        std::mutex PCB_Lock;
 
     };
 

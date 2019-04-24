@@ -23,7 +23,7 @@ namespace Project_Phase_One {
         Process_States processStatus;
         int priority;
         std::array<int, 16> registers;
-        bool isIO;
+        int IOCount;
 
         // Data
         int dataDiskIndex;
@@ -50,13 +50,13 @@ namespace Project_Phase_One {
         // Resources
         bool isPCBInRam;
         int unitNumber;
-        std::string* cache;
+        std::array<std::string, 72> cache;
     public:
         // CONSTRUCTOR
         PCB(int jobNumber, int priority, int numberOfInstrucions, int jobDiskLocation);
         PCB();
         // The Getter will return a private member of this class.
-        bool getIsIO(){ return isIO; }
+        int getIOCount(){ return IOCount; }
         int get_CPU_ID(){ return cpuID; }
         int getProgramCounter(){ return programCounter; }
         int getJobNumber(){ return jobNumber; }
@@ -82,12 +82,12 @@ namespace Project_Phase_One {
         PCB* getChildLeft(){ return childLeft_ptr; }
         PCB* getChildRight(){ return childRight_ptr; }
         PCB* getParent(){ return parent_ptr; }
-        std::string* getCache(){ return cache; }
+        std::array<std::string, 72> getCache(){ return cache; }
         bool getIsPCBInRam(){ return isPCBInRam; }
 
         // The Setter will set the member of this class
 
-        void setIsIO(bool isIO){ this->isIO = isIO; }
+        void setIOCount(int IOCount){ this->IOCount = IOCount; }
         void set_CPU_ID(int cpuID){ this->cpuID = cpuID; }
         void setProgramCounter(int programCounter){ this->programCounter = programCounter; }
         void setJobNumber(int jobNumber){ this->jobNumber = jobNumber; }
@@ -113,7 +113,7 @@ namespace Project_Phase_One {
         void setChildCodePointerLeft(PCB* childLeft_ptr){ this->childLeft_ptr = childLeft_ptr; }
         void setChildCodePointerRight(PCB* childRight_ptr){ this->childRight_ptr = childRight_ptr; }
         void setParent(PCB* parent_ptr){ this->parent_ptr = parent_ptr; }
-        void setCache(std::string* cache){ this->cache = cache; }
+        void setCache(std::array<std::string, 72> cache){ this->cache = cache; }
         void setIsPCBInRam(const bool isPCBInRam){ this->isPCBInRam = isPCBInRam; }
     };
 

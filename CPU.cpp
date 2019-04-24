@@ -19,10 +19,11 @@ namespace Project_Phase_One {
         processorState = IDLE;
         programCounter = 0;
 
+
     }
 
     std::string CPU::fetchInstruction(int programCounter) {
-
+        //std::lock_guard<std::mutex> G_lock(PCB_lock);
         return cache[programCounter];
 
     }
@@ -48,7 +49,7 @@ namespace Project_Phase_One {
 
         } else /*opCode == 11*/ {
             //Input and Output instruction format
-            ioCount++;
+            IOCount++;
             reg1 = std::stoi(instruction.substr(8, 4), nullptr, 2);
             reg2 = std::stoi(instruction.substr(12, 4), nullptr, 2);
             instuctionAddress = std::stoi(instruction.substr(16), nullptr, 2);
@@ -58,7 +59,7 @@ namespace Project_Phase_One {
     }
 
     void CPU::decode(std::string instruction) {
-
+        //std::lock_guard<std::mutex> G_lcok(PCB_lock);
         std::string binary = hexToBinary(instruction);
         setRegisters(binary);
         opCode = std::stoi(binary.substr(2,6), nullptr, 2);
@@ -66,6 +67,7 @@ namespace Project_Phase_One {
     }
 
     void CPU::executeInstructions() {
+        //std::lock_guard<std::mutex> G_lock(PCB_lock);
         processorState = EXECUTING;
         std::stringstream stream;
         int temp = 0;
@@ -261,7 +263,7 @@ namespace Project_Phase_One {
                 break;
             case 22://BNE: Branches to an address when content of B-reg <> D-reg.std::cout<<"executing "<<opCode<<std::endl;
                 //std::cout<<"this is opcode 22"<<std::endl;
-            if (registers[b_reg] != registers[branch_immediate_d_reg]) {
+                if (registers[b_reg] != registers[branch_immediate_d_reg]) {
 
                     programCounter = instuctionAddress / 4;
 
@@ -275,7 +277,7 @@ namespace Project_Phase_One {
 
                 if (registers[b_reg] == 0) {
 
-                programCounter = instuctionAddress / 4;
+                    programCounter = instuctionAddress / 4;
                 }else{
                     programCounter++;
 
@@ -325,16 +327,17 @@ namespace Project_Phase_One {
 
     void CPU::runProcess(MEMORY_MANAGEMENT_UNIT *mmu) {
         // Set the cache
-
-
         cacheSize = numberOfInstructions + inputBuffer + outputBuffer + tempBuffer;
         for(int i = 0; i < cacheSize; i++){
             cache[i] = mmu->readFromRam(jobRamIndex++);
 
         }
+        // Set I/O counter to zero.
+        IOCount = 0;
 
 
         while(numberOfInstructions > programCounter){
+            std::lock_guard<std::mutex> G_lock(PCB_lock);
             std::string executable_instructions = fetchInstruction(programCounter);
 
             decode(executable_instructions);
@@ -351,7 +354,7 @@ namespace Project_Phase_One {
 
 
     std::string CPU::hexToBinary(std::string hex) {
-
+        //std::lock_guard<std::mutex> G_lock(PCB_lock);
         std::string binary = "";
 
         for (int i = 2; i < (hex.length()-1); i++) {

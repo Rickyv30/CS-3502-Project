@@ -43,8 +43,10 @@ namespace Project_Phase_One{
                     jobToken.push_back(intermediate);
                 }
 
+                JOB.setJobDiskIndex(index);
                 jobNumber = std::stoi(jobToken[2], nullptr, 16);
                 numberOfInstructions = std::stoi(jobToken[3], nullptr, 16);
+                //priority = std::stoi(jobToken[2], nullptr, 16);
                 priority = atoi(jobToken[4].c_str());
                 jobIndex = index;
 

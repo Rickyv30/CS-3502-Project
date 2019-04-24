@@ -20,24 +20,25 @@ namespace Project_Phase_One{
     }
 
     void MEMORY_MANAGEMENT_UNIT::writeToDisk(const int index, const std::string instruction) {
+        lock.lock();
         DISK[index] = instruction;
-
+        lock.unlock();
     }
 
     std::string MEMORY_MANAGEMENT_UNIT::readFromDisk(const int index) {
+        std::lock_guard<std::mutex> G_lock(lock);
         return DISK[index];
-
     }
 
     void MEMORY_MANAGEMENT_UNIT::writeToRam(const int index, const std::string instruction) {
+        lock.lock();
         RAM[index] = instruction;
-
-
+        lock.unlock();
     }
 
     std::string MEMORY_MANAGEMENT_UNIT::readFromRam(const int index) {
+        std::lock_guard<std::mutex> G_lock(lock);
         return RAM[index];
-
     }
 
 
